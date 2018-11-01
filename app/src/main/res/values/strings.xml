@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">WeatherKremenchugTest</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="action_weather_today">Погода на сегодня</string>
+    <string name="action_weather_week">Погода на неделю</string>
+    <string name="action_drawer_settings">Настройки</string>
+    <string name="action_drawer_exit">Выход</string>
+
+    <string name="title_activity_settings">Настройки</string>
+
+
+
+    <string name="update_by_wi_fi">Обновлять только по Wi-Fi</string>
+    <string name="update_by_start">Обновлять при старте</string>
+    <string name="ask_when_exit">Спрашивать при выходе</string>
+
+    <string name="ask_exit">Вы действительно хотите выйти?</string>
+    <string name="ask_exit_yes">Да</string>
+    <string name="ask_exit_no">Нет</string>
+
+</resources>
