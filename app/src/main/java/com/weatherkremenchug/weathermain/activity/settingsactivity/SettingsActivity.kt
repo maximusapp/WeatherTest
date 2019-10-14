@@ -12,6 +12,7 @@ import android.widget.Switch
 
 import com.weatherkremenchug.weathermain.activity.mainactivity.MainActivity
 import com.weatherkremenchug.weathermain.R
+import com.weatherkremenchug.weathermain.constants.APP_PREFERENCES
 
 import java.util.Objects
 
@@ -21,14 +22,12 @@ class SettingsActivity : AppCompatActivity() {
             val launcher = Intent(context, SettingsActivity::class.java)
             context.startActivity(launcher)
         }
-
-        val APP_PREFERENCES = "settings"
     }
 
-    lateinit var sharedPreferences: SharedPreferences
-    lateinit var switch_wi_fi: Switch
-    lateinit var switch_update_start: Switch
-    lateinit var switch_ask_when_exit: Switch
+    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var switchWifi: Switch
+    lateinit var switchUpdateStart: Switch
+    lateinit var switchAskWhenExit: Switch
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -44,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Objects.requireNonNull<ActionBar>(supportActionBar).setDisplayHomeAsUpEnabled(true)
-            Objects.requireNonNull<ActionBar>(supportActionBar).setTitle("Настройки")
+            Objects.requireNonNull<ActionBar>(supportActionBar).title = "Настройки"
         }
 
         val window = this.window
@@ -54,48 +53,48 @@ class SettingsActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
 
-        switch_wi_fi = findViewById(R.id.switch_wi_fi)
-        switch_update_start = findViewById(R.id.switch_update_start)
-        switch_ask_when_exit = findViewById(R.id.switch_ask_when_exit)
+        switchWifi = findViewById(R.id.switch_wi_fi)
+        switchUpdateStart = findViewById(R.id.switch_update_start)
+        switchAskWhenExit = findViewById(R.id.switch_ask_when_exit)
 
-        switch_wi_fi.setOnClickListener {
+        switchWifi.setOnClickListener {
             val editorWifi = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE).edit()
-            editorWifi.putBoolean("switch_wi_fi", switch_wi_fi.isChecked)
+            editorWifi.putBoolean("switchWifi", switchWifi.isChecked)
             editorWifi.apply()
         }
 
-        switch_update_start.setOnClickListener {
+        switchUpdateStart.setOnClickListener {
             val editorUpdateStart = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE).edit()
-            editorUpdateStart.putBoolean("switch_update_start", switch_update_start.isChecked)
+            editorUpdateStart.putBoolean("switchUpdateStart", switchUpdateStart.isChecked)
             editorUpdateStart.apply()
         }
 
-        switch_ask_when_exit.setOnClickListener {
+        switchAskWhenExit.setOnClickListener {
             val editorAskExit = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE).edit()
-            editorAskExit.putBoolean("switch_ask_when_exit", switch_ask_when_exit.isChecked)
+            editorAskExit.putBoolean("switchAskWhenExit", switchAskWhenExit.isChecked)
             editorAskExit.apply()
         }
 
-        val switchWifiState = sharedPreferences.getBoolean("switch_wi_fi", false)
-        val switchUpdateOnStartState = sharedPreferences.getBoolean("switch_update_start", false)
-        val switchAskExitState = sharedPreferences.getBoolean("switch_ask_when_exit", false)
+        val switchWifiState = sharedPreferences.getBoolean("switchWifi", false)
+        val switchUpdateOnStartState = sharedPreferences.getBoolean("switchUpdateStart", false)
+        val switchAskExitState = sharedPreferences.getBoolean("switchAskWhenExit", false)
 
         // Handle wi_fi switch.
         when {
-            switchWifiState -> switch_wi_fi.isChecked = true
-            else -> switch_wi_fi.isChecked = false
+            switchWifiState -> switchWifi.isChecked = true
+            else -> switchWifi.isChecked = false
         }
 
         // Handle update switch.
         when {
-            switchUpdateOnStartState -> switch_update_start.isChecked = true
-            else -> switch_update_start.isChecked = false
+            switchUpdateOnStartState -> switchUpdateStart.isChecked = true
+            else -> switchUpdateStart.isChecked = false
         }
 
         // Handle exit switch.
         when {
-            switchAskExitState -> switch_ask_when_exit.isChecked = true
-            else -> switch_ask_when_exit.isChecked = false
+            switchAskExitState -> switchAskWhenExit.isChecked = true
+            else -> switchAskWhenExit.isChecked = false
         }
     }
 }

@@ -20,6 +20,7 @@ import com.weatherkremenchug.weathermain.GPSTracker
 import com.weatherkremenchug.weathermain.R
 import com.weatherkremenchug.weathermain.constants.APP_ID
 import com.weatherkremenchug.weathermain.data.WeatherOnToday
+import com.weatherkremenchug.weathermain.extensions.showToast
 import com.weatherkremenchug.weathermain.retrofit.CallToServer
 
 import java.util.Objects
@@ -156,7 +157,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<WeatherOnToday>, t: Throwable) {
-                Toast.makeText(this@WeatherOnTodayActivity, "Bad request", Toast.LENGTH_SHORT).show()
+                showToast("Bad request")
             }
         })
 

@@ -20,7 +20,6 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
 import com.weatherkremenchug.weathermain.GPSTracker
 import com.weatherkremenchug.weathermain.R
 
@@ -31,6 +30,7 @@ import com.weatherkremenchug.weathermain.constants.APP_ID
 import com.weatherkremenchug.weathermain.constants.APP_PREFERENCES
 import com.weatherkremenchug.weathermain.data.ListData
 import com.weatherkremenchug.weathermain.data.WeatherForecast
+import com.weatherkremenchug.weathermain.extensions.showToast
 import com.weatherkremenchug.weathermain.retrofit.CallToServer
 import java.util.Objects
 
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         callWeather()
 
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        val switchAskExitState = sharedPreferences!!.getBoolean("switch_ask_when_exit", false)
+        val switchAskExitState = sharedPreferences!!.getBoolean("switchAskWhenExit", false)
 
         recyclerView = findViewById(R.id.recycler_main)
         linearLayoutManager = LinearLayoutManager(this)
@@ -148,12 +148,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         generateDataList(Objects.requireNonNull<WeatherForecast>(response.body()).list)
                     }
                 }
-
-                Toast.makeText(applicationContext, "OK", Toast.LENGTH_LONG).show()
+                showToast("OK")
             }
 
             override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
-                Toast.makeText(applicationContext, "NOT_OK", Toast.LENGTH_LONG).show()
+                showToast("NOT_OK")
             }
         })
 
@@ -182,7 +181,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-
         return if (id == R.id.action_settings) {
             true
         } else super.onOptionsItemSelected(item)

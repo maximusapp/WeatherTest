@@ -17,8 +17,8 @@ import java.util.Random
 class WeatherMainAdapter(private val items: List<ListData>?) : RecyclerView.Adapter<WeatherMainAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view_weather_main = LayoutInflater.from(parent.context).inflate(R.layout.item_main_screen, parent, false)
-        return ViewHolder(view_weather_main)
+        val viewWeatherMain = LayoutInflater.from(parent.context).inflate(R.layout.item_main_screen, parent, false)
+        return ViewHolder(viewWeatherMain)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
