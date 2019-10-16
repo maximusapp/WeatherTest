@@ -10,9 +10,6 @@ buildscript {
     }
 }
 
-repositories {
-    maven { url 'https://jitpack.io' }
-}
 
 apply from: "$rootDir/dependencies.gradle"
 apply plugin: 'com.android.application'
@@ -20,10 +17,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 android {
     def appVersion = "1.0.0"
     def DEFAULT_DIMEN = "weatherapp"
-    def server = "\"http://api.openweathermap.org/data/2.5/\""
+    def server = "\"http://api.openweathermap.org/data/\""
     def STRING = "String"
     def ENDPOINT = "ENDPOINT"
 
@@ -79,8 +80,11 @@ dependencies {
     implementation "com.jakewharton.rxbinding3:rxbinding:$rxbinding_version"
 
     // Chuck.
-    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
-    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    debugImplementation "com.readystatesoftware.chuck:library:$chuck_version"
+    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuck_version"
+
+    // Logger.
+    implementation 'com.orhanobut:logger:2.2.0'
 
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:support-vector-drawable:27.1.1'
