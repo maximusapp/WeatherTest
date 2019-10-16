@@ -4,8 +4,8 @@ import com.weather.weathermain.domain.repository.IWeatherRepository
 
 interface IWeatherInteractor {
     companion object {
-        fun getInstance(weather: IWeatherRepository = IWeatherRepository.getInstance())
+        fun getInstance(weather: IWeatherRepository = IWeatherRepository.getInstance()) = WeatherInteractor(weather)
     }
 }
 
-class WeatherInteractor () { }
+class WeatherInteractor (private val weatherRepository: IWeatherRepository): IWeatherInteractor { }

@@ -13,13 +13,14 @@ interface WeatherService {
         fun get(): WeatherService = ServiceGenerator.createService(BuildConfig.ENDPOINT)
     }
 
-    @GET("forecast")
+    @GET("2.5/forecast")
     fun getForecast(@Query("lat") lat: Double?,
                     @Query("lon") lon: Double?,
                     @Query("units") units: String,
                     @Query("appid") appid: String): Call<WeatherForecast>
 
-    @GET("weather")
+    // Current weather data
+    @GET("2.5/weather")
     fun getWeather(@Query("lat") lat: Double?,
                    @Query("lon") lon: Double?,
                    @Query("units") units: String,
