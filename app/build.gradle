@@ -68,6 +68,21 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    // Rx.
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    // RxBinding.
+    implementation "com.jakewharton.rxbinding3:rxbinding:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-core:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-drawerlayout:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-leanback:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-material:$rxbinding_version"
+
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:support-vector-drawable:27.1.1'
     testImplementation 'junit:junit:4.12'
