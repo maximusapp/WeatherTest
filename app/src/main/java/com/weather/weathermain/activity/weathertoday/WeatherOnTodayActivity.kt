@@ -16,6 +16,7 @@ import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
 import com.weather.weathermain.data.WeatherOnTodayEntity
+import com.weather.weathermain.utils.constants.APP_ID
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
 
 class WeatherOnTodayActivity : AppCompatActivity() {
@@ -32,6 +33,8 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 
     private var latitude: Double = 0.toDouble()
     private var longitude: Double = 0.toDouble()
+
+    val units: String = "metric"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +53,16 @@ class WeatherOnTodayActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-//        gpsTracker = GPSTracker(this@WeatherOnTodayActivity)
-//
-//        if (gpsTracker!!.canGetLocation()) {
-//            latitude = gpsTracker!!.latitude
-//            longitude = gpsTracker!!.longitude
-//        } else {
-//            gpsTracker!!.showSettingsAlert()
-//        }
+        gpsTracker = GPSTracker(this@WeatherOnTodayActivity)
+
+        if (gpsTracker!!.canGetLocation()) {
+            latitude = gpsTracker!!.latitude
+            longitude = gpsTracker!!.longitude
+        } else {
+            gpsTracker!!.showSettingsAlert()
+        }
+
+        viewModel.requestCurrentWeather(latitude, longitude, units, APP_ID)
 
  //       callWeather()
     }
