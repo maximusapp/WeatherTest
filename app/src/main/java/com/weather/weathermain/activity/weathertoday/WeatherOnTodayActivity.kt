@@ -10,13 +10,12 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.widget.ImageView
-import android.widget.TextView
 import com.jakewharton.rxbinding2.view.RxView
 
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
+import com.weather.weathermain.data.WeatherOnTodayEntity
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
 
 class WeatherOnTodayActivity : AppCompatActivity() {
@@ -27,20 +26,12 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         }
     }
 
-    private lateinit var viewModel: WeatherOnTodayViewModel
+    private var viewModel: WeatherOnTodayViewModel = WeatherOnTodayViewModel()
 
     private var gpsTracker: GPSTracker? = null
 
     private var latitude: Double = 0.toDouble()
     private var longitude: Double = 0.toDouble()
-
-    private var image_weather_today: ImageView? = null
-    private var textView_high_degree: TextView? = null
-    private var textView_low_degree: TextView? = null
-    private var textView_pressure: TextView? = null
-    private var textView_vlaznost: TextView? = null
-    private var textView_wind: TextView? = null
-    private var place: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,22 +50,14 @@ class WeatherOnTodayActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        gpsTracker = GPSTracker(this@WeatherOnTodayActivity)
-
-        if (gpsTracker!!.canGetLocation()) {
-            latitude = gpsTracker!!.latitude
-            longitude = gpsTracker!!.longitude
-        } else {
-            gpsTracker!!.showSettingsAlert()
-        }
-
-        image_weather_today = findViewById(R.id.image_weather_today)
-        textView_high_degree = findViewById(R.id.degrees_high)
-        textView_low_degree = findViewById(R.id.degrees_low)
-        textView_pressure = findViewById(R.id.pressure_number)
-        textView_vlaznost = findViewById(R.id.vlaga_number)
-        textView_wind = findViewById(R.id.wind_number)
-        place = findViewById(R.id.place)
+//        gpsTracker = GPSTracker(this@WeatherOnTodayActivity)
+//
+//        if (gpsTracker!!.canGetLocation()) {
+//            latitude = gpsTracker!!.latitude
+//            longitude = gpsTracker!!.longitude
+//        } else {
+//            gpsTracker!!.showSettingsAlert()
+//        }
 
  //       callWeather()
     }
@@ -83,6 +66,11 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         viewModel._getBackPressed().observe(this, Observer<Boolean>{
             if (it == true) onBackPressed()
         })
+
+        viewModel._getCurrentWeather().observe(this, Observer<WeatherOnTodayEntity> { data ->
+            place.text = data?.name
+        })
+
     }
 
     private fun setupUi() {
