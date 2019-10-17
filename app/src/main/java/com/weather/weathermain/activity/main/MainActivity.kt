@@ -34,11 +34,11 @@ import com.weather.weathermain.data.network.service.WeatherService
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.util.Objects
 
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
+//import retrofit2.Retrofit
+//import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     companion object {
@@ -131,29 +131,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun callWeather() {
 
-        val retrofit = Retrofit.Builder()
-                .baseUrl("http://api.openweathermap.org/data/2.5/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+//        val retrofit = Retrofit.Builder()
+//                .baseUrl("http://api.openweathermap.org/data/2.5/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
 
-        val callToServer = retrofit.create<WeatherService>(WeatherService::class.java)
+       // val callToServer = retrofit.create<WeatherService>(WeatherService::class.java)
 
-        val call = callToServer.getForecast(latitude, longitude, units, APP_ID)
-        call.enqueue(object : Callback<WeatherForecast> {
-            override fun onResponse(call: Call<WeatherForecast>, response: Response<WeatherForecast>) {
-
-                if (response.isSuccessful) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        generateDataList(Objects.requireNonNull<WeatherForecast>(response.body()).list)
-                    }
-                }
-                showToast("OK")
-            }
-
-            override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
-                showToast("NOT_OK")
-            }
-        })
+       // val call = callToServer.getForecast(latitude, longitude, units, APP_ID)
+//        call.enqueue(object : Callback<WeatherForecast> {
+//            override fun onResponse(call: Call<WeatherForecast>, response: Response<WeatherForecast>) {
+//
+//                if (response.isSuccessful) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                        generateDataList(Objects.requireNonNull<WeatherForecast>(response.body()).list)
+//                    }
+//                }
+//                showToast("OK")
+//            }
+//
+//            override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
+//                showToast("NOT_OK")
+//            }
+//        })
 
     }
 

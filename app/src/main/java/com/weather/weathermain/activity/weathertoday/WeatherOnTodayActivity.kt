@@ -1,37 +1,23 @@
 package com.weather.weathermain.activity.weathertoday
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import com.jakewharton.rxbinding2.view.RxView
 
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
-import com.weather.weathermain.utils.constants.APP_ID
-import com.weather.weathermain.data.WeatherOnToday
-import com.weather.weathermain.utils.extensions.showToast
-import com.weather.weathermain.data.network.service.WeatherService
-import com.weather.weathermain.domain.interactor.IWeatherInteractor
-import com.weather.weathermain.domain.interactor.WeatherInteractor
-
-import java.util.Objects
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
+import kotlinx.android.synthetic.main.activity_weather_on_today.*
 
 class WeatherOnTodayActivity : AppCompatActivity() {
     companion object {
@@ -41,9 +27,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         }
     }
 
-    private val interactor: WeatherInteractor by lazy { IWeatherInteractor.getInstance() }
-
-    private var units = "metric"
+    private lateinit var viewModel: WeatherOnTodayViewModel
 
     private var gpsTracker: GPSTracker? = null
 
@@ -58,28 +42,12 @@ class WeatherOnTodayActivity : AppCompatActivity() {
     private var textView_wind: TextView? = null
     private var place: TextView? = null
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        finish()
-        return true
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_on_today)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar_weather_today)
-        setSupportActionBar(toolbar)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull<ActionBar>(supportActionBar).setDisplayHomeAsUpEnabled(true)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull<ActionBar>(supportActionBar).title = "Погода на сегодня"
-        }
 
-        val window = this.window
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = this.resources.getColor(R.color.colorGray)
-        }
+        setupUi()
+        observeLiveData()
 
         try {
             if (ContextCompat.checkSelfPermission(applicationContext,
@@ -108,14 +76,26 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         textView_wind = findViewById(R.id.wind_number)
         place = findViewById(R.id.place)
 
-        callWeather()
-
+ //       callWeather()
     }
 
-    private fun callWeather() {
+    private fun observeLiveData() {
+        viewModel._getBackPressed().observe(this, Observer<Boolean>{
+            if (it == true) onBackPressed()
+        })
+    }
 
-        interactor.getCurrentWeatherData(latitude, longitude, units, APP_ID)
+    private fun setupUi() {
+        setupClickListeners()
+    }
 
+    @SuppressLint("CheckResult")
+    private fun setupClickListeners() {
+        RxView.clicks(btnBack)
+                .subscribe{ viewModel.onBackClicked() }
+    }
+
+//    private fun callWeather() {
 
 //        val retrofit = Retrofit.Builder()
 //                .baseUrl("http://api.openweathermap.org/data/2.5/")
@@ -125,37 +105,37 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         //val callToServer = retrofit.create<WeatherService>(WeatherService::class.java)
 
         //val call = callToServer.getWeather(latitude, longitude, units, APP_ID)
-//        call.enqueue(object : Callback<WeatherOnToday> {
+//        call.enqueue(object : Callback<WeatherOnTodayEntity> {
 //            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            override fun onResponse(call: Call<WeatherOnToday>, response: Response<WeatherOnToday>) {
+//            override fun onResponse(call: Call<WeatherOnTodayEntity>, response: Response<WeatherOnTodayEntity>) {
 //                if (response.isSuccessful) {
 //                    if (response.body() != null) {
-//                        textView_high_degree?.text = Objects.requireNonNull<WeatherOnToday>(response.body()).main?.temp_max
-//                        textView_low_degree?.text = Objects.requireNonNull<WeatherOnToday>(response.body()).main?.temp_min
-//                        textView_pressure?.text = Objects.requireNonNull<WeatherOnToday>(response.body()).main?.pressure
-//                        textView_vlaznost?.text = Objects.requireNonNull<WeatherOnToday>(response.body()).main?.humidity
-//                        textView_wind?.text = Objects.requireNonNull<WeatherOnToday>(response.body()).wind?.speed
-//                        place?.text = Objects.requireNonNull<WeatherOnToday>(response.body()).name
+//                        textView_high_degree?.text = Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).main?.temp_max
+//                        textView_low_degree?.text = Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).main?.temp_min
+//                        textView_pressure?.text = Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).main?.pressure
+//                        textView_vlaznost?.text = Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).main?.humidity
+//                        textView_wind?.text = Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).wind?.speed
+//                        place?.text = Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).name
 //
 //                        when {
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "04d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloudy)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "02d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_cloudy)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "01d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_sunny)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "03d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "09d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "10d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_rain)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "11d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "13d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_haze)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "01n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_clear)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "02n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_partly_cloudy)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "03n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_cloudy)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "04n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "09n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "10n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_rain)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "11n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "13n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
-//                            Objects.requireNonNull<WeatherOnToday>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_fog)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "04d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloudy)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "02d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_cloudy)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "01d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_sunny)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "03d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "09d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "10d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_rain)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "11d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "13d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_haze)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "01n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_clear)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "02n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_partly_cloudy)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "03n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_cloudy)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "04n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "09n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "10n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_rain)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "11n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "13n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
+//                            Objects.requireNonNull<WeatherOnTodayEntity>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_fog)
 //                        }
 //
 //                    }
@@ -163,11 +143,12 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 //                }
 //            }
 //
-//            override fun onFailure(call: Call<WeatherOnToday>, t: Throwable) {
+//            override fun onFailure(call: Call<WeatherOnTodayEntity>, t: Throwable) {
 //                showToast("Bad request")
 //            }
 //        })
 
-    }
+//    }
+
 }
 // 178

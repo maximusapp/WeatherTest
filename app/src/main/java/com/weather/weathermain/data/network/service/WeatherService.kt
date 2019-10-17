@@ -2,7 +2,7 @@ package com.weather.weathermain.data.network.service
 
 import com.weather.weathermain.BuildConfig
 import com.weather.weathermain.data.WeatherForecast
-import com.weather.weathermain.data.WeatherOnToday
+import com.weather.weathermain.data.WeatherOnTodayEntity
 import io.reactivex.Single
 
 import retrofit2.Call
@@ -25,6 +25,6 @@ interface WeatherService {
     fun getWeather(@Query("lat") lat: Double?,
                    @Query("lon") lon: Double?,
                    @Query("units") units: String,
-                   @Query("appid") appid: String): Single<WeatherOnToday>
+                   @Query("appid") appid: String): Single<WeatherOnTodayEntity>
 
 }

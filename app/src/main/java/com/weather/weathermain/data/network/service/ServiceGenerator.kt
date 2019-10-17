@@ -40,13 +40,14 @@ class ServiceGenerator {
         }
 
         private fun buildClient(): OkHttpClient {
-            val builder = OkHttpClient.Builder()
-            builder
+            val client = OkHttpClient.Builder()
+            client
                     .addInterceptor(ChuckInterceptor(WeatherApplication.instance.applicationContext))
                     .readTimeout(TIME_OUT, TimeUnit.SECONDS)
                     .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                     .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
-            return builder.build()
+
+            return client.build()
         }
 
     }
