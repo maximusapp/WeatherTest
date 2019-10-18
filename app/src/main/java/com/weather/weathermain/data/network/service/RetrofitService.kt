@@ -12,10 +12,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class ServiceGenerator {
+class RetrofitService {
     companion object {
         var endPoint: String = ""
-        var retrofit: Retrofit? = null
+        private var retrofit: Retrofit? = null
         private const val TIME_OUT = 30L
 
         private val gson: Gson by lazy {
