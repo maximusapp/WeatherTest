@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface IWeatherRepository {
     companion object {
-        fun getInstance(): IWeatherRepository = WeatherRepository()
+       // fun getInstance(): IWeatherRepository = WeatherRepository()
     }
 
     fun getCurrentWeatherData(latitude: Double, longitude: Double, units: String, appid: String): Single<WeatherOnTodayEntity>

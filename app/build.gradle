@@ -24,7 +24,7 @@ repositories {
 android {
     def appVersion = "1.0.0"
     def DEFAULT_DIMEN = "weatherapp"
-    def server = "\"http://api.openweathermap.org/data/\""
+    def server = "\"http://api.openweathermap.org/data/2.5/\""
     def STRING = "String"
     def ENDPOINT = "ENDPOINT"
 
@@ -107,6 +107,9 @@ dependencies {
 
     // Logger.
     implementation 'com.orhanobut:logger:2.2.0'
+    implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:support-vector-drawable:27.1.1'

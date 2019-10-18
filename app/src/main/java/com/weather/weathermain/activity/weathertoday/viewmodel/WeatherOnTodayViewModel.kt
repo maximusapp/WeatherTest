@@ -6,9 +6,7 @@ import android.arch.lifecycle.ViewModel
 import com.weather.weathermain.data.WeatherOnTodayEntity
 import com.weather.weathermain.data.repository.WeatherRepository
 
-class WeatherOnTodayViewModel : ViewModel() {
-
-    private val weatherRepository: WeatherRepository = WeatherRepository()
+class WeatherOnTodayViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
 
     private var goBack: MutableLiveData<Boolean> = MutableLiveData()
     private var currentWeather: MutableLiveData<WeatherOnTodayEntity> = MutableLiveData()

@@ -27,7 +27,7 @@ interface WeatherService {
                    @Query("units") units: String,
                    @Query("appid") appid: String): Call<WeatherOnTodayEntity>
 
-    @GET("2.5/weather")
+    @GET("weather")
     fun getWeather(@Query("lat") lat: Double?,
                    @Query("lon") lon: Double?,
                    @Query("units") units: String,
