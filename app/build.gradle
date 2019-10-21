@@ -24,7 +24,7 @@ repositories {
 android {
     def appVersion = "1.0.0"
     def DEFAULT_DIMEN = "weatherapp"
-    def server = "\"http://api.openweathermap.org/data/2.5/\""
+    def server = "\"https://api.openweathermap.org/data/2.5/\""
     def STRING = "String"
     def ENDPOINT = "ENDPOINT"
 
