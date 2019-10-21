@@ -7,30 +7,19 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
 
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
 import com.weather.weathermain.data.WeatherOnTodayEntity
-import com.weather.weathermain.data.network.service.WeatherService
-import com.weather.weathermain.data.repository.WeatherRemoteRepository
-import com.weather.weathermain.data.repository.WeatherRepository
-import com.weather.weathermain.utils.extensions.showToast
+import com.weather.weathermain.utils.extensions.showToastLong
+import com.weather.weathermain.utils.extensions.showToastShort
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 
 class WeatherOnTodayActivity : AppCompatActivity() {
     companion object {
@@ -96,6 +85,13 @@ class WeatherOnTodayActivity : AppCompatActivity() {
             if (it == true) onBackPressed()
         })
 
+        model._getDataOk().observe(this, Observer<String> {
+            showToastShort("OK")
+        } )
+
+        model._getDatFail().observe(this, Observer<String> {
+            showToastShort("NOT_OK")
+        } )
 
     }
 
@@ -123,7 +119,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 //            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 //            override fun onResponse(call: Call<WeatherOnTodayEntity>, response: Response<WeatherOnTodayEntity>) {
 //                if (response.isSuccessful) {
-//                    showToast("Success")
+//                    showToastLong("Success")
 //                    if (response.body() != null) {
 //
 //                        when {

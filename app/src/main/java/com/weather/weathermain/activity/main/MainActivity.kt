@@ -25,12 +25,12 @@ import com.weather.weathermain.R
 import com.weather.weathermain.activity.settings.SettingsActivity
 import com.weather.weathermain.activity.weathertoday.WeatherOnTodayActivity
 import com.weather.weathermain.activity.main.adapter.WeatherMainAdapter
-import com.weather.weathermain.utils.constants.APP_ID
 import com.weather.weathermain.utils.constants.APP_PREFERENCES
 import com.weather.weathermain.data.ListData
 import com.weather.weathermain.data.WeatherForecast
-import com.weather.weathermain.utils.extensions.showToast
+import com.weather.weathermain.utils.extensions.showToastLong
 import com.weather.weathermain.data.network.service.WeatherService
+import com.weather.weathermain.utils.extensions.showToastShort
 import kotlinx.android.synthetic.main.app_bar_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun callWeather() {
 
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://api.openweathermap.org/data/2.5/")
+                .baseUrl("https://apid.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -148,11 +148,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         generateDataList(Objects.requireNonNull<WeatherForecast>(response.body()).list)
                     }
                 }
-                showToast("OK")
+                showToastLong("OK")
             }
 
             override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
-                showToast("NOT_OK")
+                showToastShort("NOT_OK")
             }
         })
 
