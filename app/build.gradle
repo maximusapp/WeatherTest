@@ -30,7 +30,8 @@ android {
 
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.weatherkremenchug.weatherkremenchugtest"
+        //applicationId "com.weatherkremenchug.weatherkremenchugtest"
+        applicationId "com.weather.weathermain"
         minSdkVersion 17
         targetSdkVersion 28
         versionCode 1

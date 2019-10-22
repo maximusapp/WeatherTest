@@ -3,6 +3,7 @@ package com.weather.weathermain.activity.weathertoday.viewmodel
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.data.repository.WeatherRemoteRepository
 
@@ -27,14 +28,14 @@ class WeatherOnTodayViewModel: ViewModel() {
         _getDataOk().postValue("OK")
     }
 
-    fun getDataFail() {
-        _getDatFail().postValue("FAIL")
+    fun getDataFail(error: Throwable) {
+        _getDatFail().postValue(error.toString())
     }
 
      @SuppressLint("CheckResult")
      fun requestCurrentWeather(lat: Double, lon: Double, units: String, appid: String) {
         weatherRepository.getCurrentWeatherData(lat, lon, units, appid)
-                .subscribe({_getDataOk()},{ getDataFail()})
+                .subscribe({getDataOk()},{ getDataFail(it)})
     }
 
 }

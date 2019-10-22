@@ -11,12 +11,15 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
 
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
 import com.weather.weathermain.data.WeatherOnTodayResponse
+import com.weather.weathermain.utils.extensions.prettyLog
+import com.weather.weathermain.utils.extensions.showToastLong
 import com.weather.weathermain.utils.extensions.showToastShort
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
 
@@ -73,13 +76,11 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 
     private fun observeLiveData() {
         model.requestCurrentWeather(latitude, longitude, units, appid)
-        model.getDataOk()
-        model.getDataFail()
     }
 
     private fun setViewLiveData() {
         model._getCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
-            place.text = data?.name
+            place.text = data!!.name
         })
 
         model._getBackPressed().observe(this, Observer<Boolean> {
@@ -91,7 +92,8 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         })
 
         model._getDatFail().observe(this, Observer<String> { data ->
-            showToastShort(data.toString())
+            showToastLong(data.toString())
+            Log.d("DATA_IS_FAIL ", data.toString())
         })
 
     }
