@@ -2,7 +2,7 @@ package com.weather.weathermain.data.network.service
 
 import com.weather.weathermain.BuildConfig
 import com.weather.weathermain.data.WeatherForecast
-import com.weather.weathermain.data.WeatherOnTodayEntity
+import com.weather.weathermain.data.WeatherOnTodayResponse
 import io.reactivex.Single
 
 import retrofit2.Call
@@ -25,11 +25,11 @@ interface WeatherService {
     fun getWeatherd(@Query("lat") lat: Double,
                    @Query("lon") lon: Double,
                    @Query("units") units: String,
-                   @Query("appid") appid: String): Call<WeatherOnTodayEntity>
+                   @Query("appid") appid: String): Call<WeatherOnTodayResponse>
 
     @GET("weather")
     fun getWeather(@Query("lat") lat: Double?,
                    @Query("lon") lon: Double?,
                    @Query("units") units: String,
-                   @Query("appid") appid: String): Single<WeatherOnTodayEntity>
+                   @Query("appid") appid: String): Single<WeatherOnTodayResponse>
 }
