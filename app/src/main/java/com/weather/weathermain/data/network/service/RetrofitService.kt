@@ -35,16 +35,6 @@ class RetrofitService {
             return getRetrofit(shouldAddInterceptor).create(S::class.java)
         }
 
-        fun loggingInterceptor(addCustomHeaders: Boolean): LoggingInterceptor? {
-            val builder = LoggingInterceptor.Builder()
-                    .loggable(BuildConfig.DEBUG)
-                    .setLevel(Level.BASIC)
-                    .log(Log.INFO)
-                    .request(NETWORK)
-                    .response(NETWORK)
-            return builder.build()
-        }
-
         fun getRetrofit(shouldAddInterceptor: Boolean): Retrofit {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
@@ -67,6 +57,16 @@ class RetrofitService {
                     .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
 
             return client.build()
+        }
+
+        fun loggingInterceptor(addCustomHeaders: Boolean): LoggingInterceptor? {
+            val builder = LoggingInterceptor.Builder()
+                    .loggable(BuildConfig.DEBUG)
+                    .setLevel(Level.BASIC)
+                    .log(Log.INFO)
+                    .request(NETWORK)
+                    .response(NETWORK)
+            return builder.build()
         }
 
     }

@@ -7,36 +7,19 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
-import com.readystatesoftware.chuck.ChuckInterceptor
-
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
-import com.weather.weathermain.WeatherApplication
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
 import com.weather.weathermain.data.WeatherOnTodayResponse
-import com.weather.weathermain.data.network.service.RetrofitService
-import com.weather.weathermain.data.network.service.WeatherService
-import com.weather.weathermain.utils.extensions.prettyLog
-import com.weather.weathermain.utils.extensions.showToastLong
-import com.weather.weathermain.utils.extensions.showToastShort
+import com.weather.weathermain.utils.constants.APP_ID
+import com.weather.weathermain.utils.constants.UNITS
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 class WeatherOnTodayActivity : AppCompatActivity() {
     companion object {
@@ -50,9 +33,6 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 
     private var latitude: Double = 0.toDouble()
     private var longitude: Double = 0.toDouble()
-    private val appid: String = "c3eebf803f44713f50e31a7c5b215a73"
-
-    private val units: String = "metric"
 
     private lateinit var model: WeatherOnTodayViewModel
 
@@ -86,29 +66,24 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 
         observeLiveData()
         setViewLiveData()
-     //   callWeather()
     }
 
     private fun observeLiveData() {
-        model.requestCurrentWeather(latitude, longitude, units, appid)
+        model.requestCurrentWeather(latitude, longitude, UNITS, APP_ID)
     }
 
     private fun setViewLiveData() {
         model._getCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
             place.text = data!!.name
+            if (data.weather[0].icon == "50d") iv_weather_today.setImageResource(R.drawable.ic_wi_day_haze)
         })
 
         model._getBackPressed().observe(this, Observer<Boolean> {
             if (it == true) onBackPressed()
         })
 
-        model._getDataOk().observe(this, Observer<String> { data ->
-            showToastShort(data.toString())
-        })
-
-        model._getDatFail().observe(this, Observer<String> { data ->
-            showToastLong(data.toString())
-            Log.d("DATA_IS_FAIL ", data.toString())
+        model._getDatFail().observe(this, Observer<String> { data_fail ->
+            Log.d("DATA_IS_FAIL ", data_fail.toString())
         })
 
     }
@@ -123,70 +98,23 @@ class WeatherOnTodayActivity : AppCompatActivity() {
                 .subscribe { model.onBackClicked() }
     }
 
-//    private fun callWeather() {
-//
-//        val retrofit = Retrofit.Builder()
-//                .baseUrl("https://api.openweathermap.org/data/2.5/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .client(buildClient(true))
-//                .build()
-//
-//        val callToServer = retrofit.create<WeatherService>(WeatherService::class.java)
-//
-//        val call = callToServer.getWeatherd(latitude, longitude, units, appid)
-//        call.enqueue(object : Callback<WeatherOnTodayResponse> {
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            override fun onResponse(call: Call<WeatherOnTodayResponse>, response: Response<WeatherOnTodayResponse>) {
-//                if (response.isSuccessful) {
-//                    showToastLong("Success")
-//                    if (response.body() != null) {
-//
-//                        when {
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "04d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloudy)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "02d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_cloudy)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "01d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_sunny)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "03d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "09d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "10d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_rain)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "11d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "13d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_haze)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "01n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_clear)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "02n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_partly_cloudy)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "03n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_cloudy)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "04n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "09n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "10n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_rain)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "11n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "13n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
-//                            Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_fog)
-//                        }
-//
-//                        place.text = response.body()!!.name
-//
-//
-//                    }
-//
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<WeatherOnTodayResponse>, t: Throwable) {
-//                Log.d("Message", t.message.toString())
-//
-//            }
-//        })
-//
-//    }
-//
-//    private fun buildClient(shouldAddInterceptor: Any): OkHttpClient {
-//            val client = OkHttpClient.Builder()
-//            client
-//                    .addInterceptor(RetrofitService.loggingInterceptor(true) as Interceptor)
-//                    .addInterceptor(ChuckInterceptor(WeatherApplication.instance.applicationContext))
-//
-//
-//            return client.build()
-//        }
-//
-//
+//   when {
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "04d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloudy)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "02d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_cloudy)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "01d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_sunny)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "03d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "09d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "10d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_rain)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "11d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "13d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_haze)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "01n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_clear)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "02n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_partly_cloudy)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "03n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_cloudy)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "04n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "09n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "10n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_rain)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "11n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "13n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
+//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_fog)
 } // 178

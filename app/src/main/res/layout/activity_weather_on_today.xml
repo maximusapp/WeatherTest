@@ -46,7 +46,7 @@
 
 
         <ImageView
-            android:id="@+id/image_weather_today"
+            android:id="@+id/iv_weather_today"
             android:layout_width="200dp"
             android:layout_height="160dp"
             android:layout_gravity="center"

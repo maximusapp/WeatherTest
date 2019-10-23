@@ -17,15 +17,10 @@ class WeatherOnTodayViewModel: ViewModel() {
 
     fun _getCurrentWeather(): MutableLiveData<WeatherOnTodayResponse>  { return currentWeather }
     fun _getBackPressed(): MutableLiveData<Boolean> { return goBack }
-    fun _getDataOk(): MutableLiveData<String> { return data }
     fun _getDatFail(): MutableLiveData<String> { return data }
 
     fun onBackClicked() {
         _getBackPressed().postValue(true)
-    }
-
-    fun getDataOk() {
-        _getDataOk().postValue("OK")
     }
 
     fun getDataFail(error: Unit) {
