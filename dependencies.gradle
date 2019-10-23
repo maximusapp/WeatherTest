@@ -24,7 +24,6 @@ ext {
     rxBindingPlatform = "$rxbindingPackage:rxbinding-kotlin:$rxbinding_version"
     chuck = "com.readystatesoftware.chuck:library:$chuck_version"
     gson = "$gsonPackage:gson:$gson_version"
-    chuckLib = "com.readystatesoftware.chuck:library:$chuck_version"
 
     supportDependencies = [
             design          : buildDependency(supportPackage, 'design',  support_version),

@@ -2,7 +2,7 @@ package com.weather.weathermain.data
 
 import java.util.ArrayList
 
-class WeatherOnToday {
+class WeatherOnTodayResponse {
 
     val coord: CoordData? = null
     val weather = ArrayList<WeatherData>()

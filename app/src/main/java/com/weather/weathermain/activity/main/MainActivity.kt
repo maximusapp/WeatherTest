@@ -25,20 +25,20 @@ import com.weather.weathermain.R
 import com.weather.weathermain.activity.settings.SettingsActivity
 import com.weather.weathermain.activity.weathertoday.WeatherOnTodayActivity
 import com.weather.weathermain.activity.main.adapter.WeatherMainAdapter
-import com.weather.weathermain.utils.constants.APP_ID
 import com.weather.weathermain.utils.constants.APP_PREFERENCES
 import com.weather.weathermain.data.ListData
 import com.weather.weathermain.data.WeatherForecast
-import com.weather.weathermain.utils.extensions.showToast
+import com.weather.weathermain.utils.extensions.showToastLong
 import com.weather.weathermain.data.network.service.WeatherService
+import com.weather.weathermain.utils.extensions.showToastShort
 import kotlinx.android.synthetic.main.app_bar_main.*
-import java.util.Objects
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Objects
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     companion object {
@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var longitude: Double = 0.toDouble()
 
     private var units = "metric"
+    var app_id: String = "c3eebf803f44713f50e31a7c5b215a73"
 
     private var recyclerView: RecyclerView? = null
     private var weatherMainAdapter: WeatherMainAdapter? = null
@@ -132,13 +133,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun callWeather() {
 
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://api.openweathermap.org/data/2.5/")
+                .baseUrl("https://apid.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
         val callToServer = retrofit.create<WeatherService>(WeatherService::class.java)
 
-        val call = callToServer.getForecast(latitude, longitude, units, APP_ID)
+        val call = callToServer.getForecast(latitude, longitude, units, app_id)
         call.enqueue(object : Callback<WeatherForecast> {
             override fun onResponse(call: Call<WeatherForecast>, response: Response<WeatherForecast>) {
 
@@ -147,11 +148,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         generateDataList(Objects.requireNonNull<WeatherForecast>(response.body()).list)
                     }
                 }
-                showToast("OK")
+                showToastLong("OK")
             }
 
             override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
-                showToast("NOT_OK")
+                showToastShort("NOT_OK")
             }
         })
 
