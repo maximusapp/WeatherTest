@@ -28,14 +28,14 @@ class WeatherOnTodayViewModel: ViewModel() {
         _getDataOk().postValue("OK")
     }
 
-    fun getDataFail(error: Throwable) {
+    fun getDataFail(error: Unit) {
         _getDatFail().postValue(error.toString())
     }
 
      @SuppressLint("CheckResult")
      fun requestCurrentWeather(lat: Double, lon: Double, units: String, appid: String) {
         weatherRepository.getCurrentWeatherData(lat, lon, units, appid)
-                .subscribe({getDataOk()},{ getDataFail(it)})
+                .subscribe({_getCurrentWeather().postValue(it)},{ getDataFail(it.printStackTrace())})
     }
 
 }

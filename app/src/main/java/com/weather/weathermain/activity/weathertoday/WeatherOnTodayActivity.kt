@@ -7,21 +7,36 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
+import com.readystatesoftware.chuck.ChuckInterceptor
 
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
+import com.weather.weathermain.WeatherApplication
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
 import com.weather.weathermain.data.WeatherOnTodayResponse
+import com.weather.weathermain.data.network.service.RetrofitService
+import com.weather.weathermain.data.network.service.WeatherService
 import com.weather.weathermain.utils.extensions.prettyLog
 import com.weather.weathermain.utils.extensions.showToastLong
 import com.weather.weathermain.utils.extensions.showToastShort
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class WeatherOnTodayActivity : AppCompatActivity() {
     companion object {
@@ -71,7 +86,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 
         observeLiveData()
         setViewLiveData()
-//        callWeather()
+     //   callWeather()
     }
 
     private fun observeLiveData() {
@@ -113,6 +128,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 //        val retrofit = Retrofit.Builder()
 //                .baseUrl("https://api.openweathermap.org/data/2.5/")
 //                .addConverterFactory(GsonConverterFactory.create())
+//                .client(buildClient(true))
 //                .build()
 //
 //        val callToServer = retrofit.create<WeatherService>(WeatherService::class.java)
@@ -161,6 +177,16 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 //        })
 //
 //    }
-
-}
-// 178
+//
+//    private fun buildClient(shouldAddInterceptor: Any): OkHttpClient {
+//            val client = OkHttpClient.Builder()
+//            client
+//                    .addInterceptor(RetrofitService.loggingInterceptor(true) as Interceptor)
+//                    .addInterceptor(ChuckInterceptor(WeatherApplication.instance.applicationContext))
+//
+//
+//            return client.build()
+//        }
+//
+//
+} // 178

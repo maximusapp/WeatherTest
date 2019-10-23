@@ -35,7 +35,17 @@ class RetrofitService {
             return getRetrofit(shouldAddInterceptor).create(S::class.java)
         }
 
-        fun getRetrofit(shouldAddInterceptor: Boolean = true): Retrofit {
+        fun loggingInterceptor(addCustomHeaders: Boolean): LoggingInterceptor? {
+            val builder = LoggingInterceptor.Builder()
+                    .loggable(BuildConfig.DEBUG)
+                    .setLevel(Level.BASIC)
+                    .log(Log.INFO)
+                    .request(NETWORK)
+                    .response(NETWORK)
+            return builder.build()
+        }
+
+        fun getRetrofit(shouldAddInterceptor: Boolean): Retrofit {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                         .baseUrl(endPoint)
@@ -47,26 +57,16 @@ class RetrofitService {
             return retrofit!!
         }
 
-        private fun buildClient(shouldAddCustomHeaders: Boolean): OkHttpClient {
+        private fun buildClient(shouldAddCustomHeaders: Boolean = true): OkHttpClient {
             val client = OkHttpClient.Builder()
             client
                     .addInterceptor(loggingInterceptor(shouldAddCustomHeaders) as Interceptor)
-                    .addInterceptor(ChuckInterceptor(WeatherApplication.instance.applicationContext))
+                   // .addInterceptor(ChuckInterceptor(WeatherApplication.instance.applicationContext))
                     .readTimeout(TIME_OUT, TimeUnit.SECONDS)
                     .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                     .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
 
             return client.build()
-        }
-
-        private fun loggingInterceptor(addCustomHeaders: Boolean): LoggingInterceptor? {
-            val builder = LoggingInterceptor.Builder()
-                    .loggable(BuildConfig.DEBUG)
-                    .setLevel(Level.BASIC)
-                    .log(Log.INFO)
-                    .request(NETWORK)
-                    .response(NETWORK)
-            return builder.build()
         }
 
     }

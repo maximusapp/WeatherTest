@@ -28,12 +28,12 @@ android {
     def STRING = "String"
     def ENDPOINT = "ENDPOINT"
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         //applicationId "com.weatherkremenchug.weatherkremenchugtest"
         applicationId "com.weather.weathermain"
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
