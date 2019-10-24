@@ -12,9 +12,15 @@
     <dimen name="x_large">24dp</dimen>
     <dimen name="x_30_large">30dp</dimen>
     <dimen name="xx_large">32dp</dimen>
+    <dimen name="x_40_large">40dp</dimen>
     <dimen name="x_48_large">48dp</dimen>
     <dimen name="x_56_large">56dp</dimen>
     <dimen name="x_64_large">64dp</dimen>
+    <dimen name="x_70_large">70dp</dimen>
+    <dimen name="x_80_large">80dp</dimen>
+    <dimen name="x_90_large">90dp</dimen>
+    <dimen name="x_120_large">120dp</dimen>
+    <dimen name="x_150_large">150dp</dimen>
 
     <dimen name="standard_sp">8sp</dimen>
     <dimen name="x_standard_sp">12sp</dimen>
@@ -26,4 +32,10 @@
     <dimen name="x_26_sp">26sp</dimen>
     <dimen name="x_28_sp">28sp</dimen>
     <dimen name="x_30_sp">30sp</dimen>
+    <dimen name="x_40_sp">40sp</dimen>
+    <dimen name="x_50_sp">50sp</dimen>
+    <dimen name="x_90_sp">90sp</dimen>
+    <dimen name="x_100_sp">100sp</dimen>
+    <dimen name="x_110_sp">110sp</dimen>
+    <dimen name="x_150_sp">150sp</dimen>
 </resources>

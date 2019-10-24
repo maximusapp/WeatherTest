@@ -76,7 +76,9 @@ class WeatherOnTodayActivity : AppCompatActivity() {
     private fun setViewLiveData() {
         model._getCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
             place.text = data!!.name
-            if (data.weather[0].icon == "50d") iv_weather_today.setImageResource(R.drawable.ic_wi_day_haze)
+            tv_weather_name.text = data.weather[0].description
+            tv_degree.text = data.main?.temp
+            if (data.weather[0].icon == "50d") iv_weather_today.setImageResource(R.drawable.icon_haze)
         })
 
         model._getBackPressed().observe(this, Observer<Boolean> {

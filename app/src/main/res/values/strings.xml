@@ -26,5 +26,11 @@
     <string name="current_weather_title">Погода на сегодня</string>
     <string name="todo">TODO</string>
     <string name="current_weather_place">Place</string>
+    <string name="current_weather_name">Weather name</string>
+    <string name="current_day">Current day</string>
+    <string name="current_weather_degree">10</string>
+    <string name="current_month">August, 28</string>
+    <string name="tv_degree">C</string>
+    <string name="tv_degree_item">0</string>
 
 </resources>
