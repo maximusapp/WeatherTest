@@ -8,37 +8,35 @@
     android:background="@color/colorGray"
     >
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnBack"
-        android:layout_width="73dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="@dimen/standard"
-        android:layout_marginTop="@dimen/x_48_large"
-        android:layout_marginEnd="@dimen/standard"
-        android:layout_marginBottom="@dimen/standard"
-        android:clickable="true"
-        android:focusable="true"
-        android:scaleType="center"
-        android:scaleX="0.8"
-        android:scaleY="0.8"
-        app:backgroundTint="@color/colorWhite"
-        app:elevation="@dimen/standard"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/current_weather_place"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="@dimen/x_large"
+        android:textSize="@dimen/x_30_sp"
+        android:fontFamily="@font/roboto_regular"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="@dimen/x_30_large"
+        android:layout_height="@dimen/x_30_large"
+        android:layout_marginTop="@dimen/x_48_large"
+        android:layout_marginEnd="@dimen/x_standard"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:rippleColor="@color/colorAccent"
-        app:srcCompat="@drawable/ic_action_back" />
+        app:srcCompat="@drawable/menu"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorGray"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/x_large"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="@dimen/x_64_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,8 +45,8 @@
 
         <ImageView
             android:id="@+id/iv_weather_today"
-            android:layout_width="200dp"
-            android:layout_height="160dp"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             app:srcCompat="@drawable/ic_wi_day_cloudy"
@@ -246,18 +244,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@color/colorPrimary" />
-
-        <TextView
-            android:id="@+id/place"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Place"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp" />
 
     </LinearLayout>
 

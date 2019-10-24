@@ -7,10 +7,23 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="standard">8dp</dimen>
+    <dimen name="x_standard">12dp</dimen>
     <dimen name="large">16dp</dimen>
     <dimen name="x_large">24dp</dimen>
+    <dimen name="x_30_large">30dp</dimen>
     <dimen name="xx_large">32dp</dimen>
     <dimen name="x_48_large">48dp</dimen>
     <dimen name="x_56_large">56dp</dimen>
     <dimen name="x_64_large">64dp</dimen>
+
+    <dimen name="standard_sp">8sp</dimen>
+    <dimen name="x_standard_sp">12sp</dimen>
+    <dimen name="xx_standard_sp">14sp</dimen>
+    <dimen name="large_sp">16sp</dimen>
+    <dimen name="x_large_sp">20sp</dimen>
+    <dimen name="x_22_sp">22sp</dimen>
+    <dimen name="x_24_sp">24sp</dimen>
+    <dimen name="x_26_sp">26sp</dimen>
+    <dimen name="x_28_sp">28sp</dimen>
+    <dimen name="x_30_sp">30sp</dimen>
 </resources>

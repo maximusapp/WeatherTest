@@ -15,6 +15,7 @@ import android.util.Log
 import com.jakewharton.rxbinding2.view.RxView
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
+import com.weather.weathermain.activity.main.MainActivity
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.utils.constants.APP_ID
@@ -79,7 +80,10 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         })
 
         model._getBackPressed().observe(this, Observer<Boolean> {
-            if (it == true) onBackPressed()
+            if (it == true) {
+                MainActivity.launch(this)
+                finish()
+            }
         })
 
         model._getDatFail().observe(this, Observer<String> { data_fail ->
@@ -94,8 +98,8 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     private fun setupClickListeners() {
-        RxView.clicks(btnBack)
-                .subscribe { model.onBackClicked() }
+//        RxView.clicks(btnBack)
+//                .subscribe { model.onBackClicked() }
     }
 
 //   when {

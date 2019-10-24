@@ -25,5 +25,6 @@
     <string name="ask_exit_no">Нет</string>
     <string name="current_weather_title">Погода на сегодня</string>
     <string name="todo">TODO</string>
+    <string name="current_weather_place">Place</string>
 
 </resources>
