@@ -91,6 +91,10 @@ class WeatherOnTodayActivity : AppCompatActivity() {
             tv_wind_speed_value.text = data.wind?.speed
 
             tv_current_day.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(date.time)
+            tv_current_month.text = SimpleDateFormat("MMMM, d", Locale.getDefault()).format(date.time)
+
+            tv_sunrise_value.text = SimpleDateFormat("hh:mm", Locale.getDefault()).format(data.sys?.sunrise!! * 1000L)
+            tv_sunset_value.text = SimpleDateFormat("hh:mm", Locale.getDefault()).format(data.sys.sunset!! * 1000L)
 
         })
 

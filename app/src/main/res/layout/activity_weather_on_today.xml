@@ -355,7 +355,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/iv_weather_today" />
 
                         <TextView
-                            android:id="@+id/tv_sunrise_vaule"
+                            android:id="@+id/tv_sunrise_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
