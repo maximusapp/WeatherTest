@@ -12,18 +12,14 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.jakewharton.rxbinding2.view.RxView
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
-import com.weather.weathermain.activity.main.MainActivity
 import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.utils.constants.APP_ID
 import com.weather.weathermain.utils.constants.UNITS
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 class WeatherOnTodayActivity : AppCompatActivity() {
@@ -81,9 +77,11 @@ class WeatherOnTodayActivity : AppCompatActivity() {
     }
 
     private fun setViewLiveData() {
-        model._getCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
+        model._setCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
             place.text = data!!.name
-            if (data.weather[0].icon == "50d") iv_weather_today.setImageResource(R.drawable.icon_haze)
+
+            model.getWeatherIcon(data.weather[0].icon!!)
+
             tv_weather_name.text = data.weather[0].description
             tv_degree.text = data.main?.temp
             tv_humidity.text = data.main?.humidity
@@ -98,11 +96,8 @@ class WeatherOnTodayActivity : AppCompatActivity() {
 
         })
 
-        model._getBackPressed().observe(this, Observer<Boolean> {
-            if (it == true) {
-                MainActivity.launch(this)
-                finish()
-            }
+        model._setWeatherIcon().observe(this, Observer<Int> { icon ->
+            iv_weather_today.setImageResource(icon!!)
         })
 
         model._getDatFail().observe(this, Observer<String> { data_fail ->
@@ -118,26 +113,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun setupClickListeners() {
 //        RxView.clicks(btnBack)
-//                .subscribe { model.onBackClicked() }
+//                .subscribe { model.getWeatherIcon() }
     }
 
-//   when {
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "04d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloudy)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "02d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_cloudy)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "01d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_sunny)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "03d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "09d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "10d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_rain)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "11d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "13d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_day_haze)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "01n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_clear)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "02n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_partly_cloudy)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "03n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_cloudy)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "04n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_cloud)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "09n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_rain)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "10n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_alt_rain)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "11n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_thunderstorm)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "13n" -> image_weather_today?.setImageResource(R.drawable.ic_wi_snow)
-//  Objects.requireNonNull<WeatherOnTodayResponse>(response.body()).weather[0].icon == "50d" -> image_weather_today?.setImageResource(R.drawable.ic_wi_night_fog)
 } // 178
