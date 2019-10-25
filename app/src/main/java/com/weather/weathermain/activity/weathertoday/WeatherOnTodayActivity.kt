@@ -21,6 +21,10 @@ import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.utils.constants.APP_ID
 import com.weather.weathermain.utils.constants.UNITS
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 
 class WeatherOnTodayActivity : AppCompatActivity() {
     companion object {
@@ -36,6 +40,9 @@ class WeatherOnTodayActivity : AppCompatActivity() {
     private var longitude: Double = 0.toDouble()
 
     private lateinit var model: WeatherOnTodayViewModel
+
+   private val calendar: Calendar = Calendar.getInstance()
+    private val date: Date = calendar.time
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,9 +83,15 @@ class WeatherOnTodayActivity : AppCompatActivity() {
     private fun setViewLiveData() {
         model._getCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
             place.text = data!!.name
+            if (data.weather[0].icon == "50d") iv_weather_today.setImageResource(R.drawable.icon_haze)
             tv_weather_name.text = data.weather[0].description
             tv_degree.text = data.main?.temp
-            if (data.weather[0].icon == "50d") iv_weather_today.setImageResource(R.drawable.icon_haze)
+            tv_humidity.text = data.main?.humidity
+            tv_pressure.text = data.main?.pressure
+            tv_wind_speed_value.text = data.wind?.speed
+
+            tv_current_day.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(date.time)
+
         })
 
         model._getBackPressed().observe(this, Observer<Boolean> {

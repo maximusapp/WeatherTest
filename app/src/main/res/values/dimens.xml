@@ -6,6 +6,10 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="x_1_large">1dp</dimen>
+    <dimen name="x_2_large">2dp</dimen>
+    <dimen name="x_4_large">4dp</dimen>
+    <dimen name="x_6_large">6dp</dimen>
     <dimen name="standard">8dp</dimen>
     <dimen name="x_standard">12dp</dimen>
     <dimen name="large">16dp</dimen>

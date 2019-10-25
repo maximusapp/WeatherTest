@@ -32,5 +32,20 @@
     <string name="current_month">August, 28</string>
     <string name="tv_degree">C</string>
     <string name="tv_degree_item">0</string>
+    <string name="tv_humidity">Влажность</string>
+    <string name="tv_humidity_value">90</string>
+    <string name="tv_humidity_proc">%</string>
+    <string name="tv_pressure">Давление</string>
+    <string name="tv_pressure_value">900</string>
+    <string name="tv_pressure_">мм</string>
+    <string name="tv_wind_speed">Ветер</string>
+    <string name="tv_wind_speed_value">10</string>
+    <string name="tv_wind_speed_value_">м/с</string>
+    <string name="tv_sunrise">Восход</string>
+    <string name="tv_sunrise_time">6:30</string>
+    <string name="tv_sunrise_time_">утра</string>
+    <string name="tv_sunset">Закат</string>
+    <string name="tv_sunset_time">17:00</string>
+    <string name="tv_sunset_time_">вечера</string>
 
 </resources>
