@@ -3,7 +3,7 @@ package com.weather.weathermain.activity.splash
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.weather.weathermain.R
-import com.weather.weathermain.activity.weathertoday.WeatherOnTodayActivity
+import com.weather.weathermain.activity.weathertoday.CurrentWeatherActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -14,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun launchMainActivity() {
-        WeatherOnTodayActivity.launch(this)
+        CurrentWeatherActivity.launch(this)
         finish()
     }
 

@@ -26,7 +26,7 @@ import com.weather.weathermain.R
 import com.weather.weathermain.activity.main.adapter.WeatherMainAdapter
 import com.weather.weathermain.activity.main.mainviewmodel.MainActivityViewModel
 import com.weather.weathermain.activity.settings.SettingsActivity
-import com.weather.weathermain.activity.weathertoday.WeatherOnTodayActivity
+import com.weather.weathermain.activity.weathertoday.CurrentWeatherActivity
 import com.weather.weathermain.data.ListData
 import com.weather.weathermain.data.WeatherForecast
 import com.weather.weathermain.utils.constants.APP_ID
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_weather_today -> WeatherOnTodayActivity.launch(this)
+            R.id.nav_weather_today -> CurrentWeatherActivity.launch(this)
             R.id.nav_weather_week -> { }
             R.id.nav_drawer_settings -> {
                 SettingsActivity.launch(this)

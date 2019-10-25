@@ -7,7 +7,7 @@ import com.weather.weathermain.R
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.data.repository.WeatherRemoteRepository
 
-class WeatherOnTodayViewModel: ViewModel() {
+class CurrentWeatherViewModel: ViewModel() {
 
     private var icon: MutableLiveData<Int> = MutableLiveData()
     private var currentWeather: MutableLiveData<WeatherOnTodayResponse> = MutableLiveData()
@@ -25,9 +25,21 @@ class WeatherOnTodayViewModel: ViewModel() {
            "02d" -> _setWeatherIcon().postValue(R.drawable.icon_few_clouds_day)
            "03d" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
            "04d" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
-           "05d" -> _setWeatherIcon().postValue(R.drawable.icon_haze_day)
+           "50d" -> _setWeatherIcon().postValue(R.drawable.icon_haze_day)
            "09d" -> _setWeatherIcon().postValue(R.drawable.icon_shower_rain)
            "10d" -> _setWeatherIcon().postValue(R.drawable.icon_rain)
+           "11d" -> _setWeatherIcon().postValue(R.drawable.icon_storm)
+           "13d" -> _setWeatherIcon().postValue(R.drawable.icon_snow)
+
+           "01n" -> _setWeatherIcon().postValue(R.drawable.icon_clear_sky_night)
+           "02n" -> _setWeatherIcon().postValue(R.drawable.icon_few_clouds_night)
+           "03n" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
+           "04n" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
+           "50n" -> _setWeatherIcon().postValue(R.drawable.icon_haze_night)
+           "09n" -> _setWeatherIcon().postValue(R.drawable.icon_shower_rain)
+           "10n" -> _setWeatherIcon().postValue(R.drawable.icon_rain)
+           "11n" -> _setWeatherIcon().postValue(R.drawable.icon_storm)
+           "13n" -> _setWeatherIcon().postValue(R.drawable.icon_snow)
        }
         return "Unknown Icon"
     }

@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
-import com.weather.weathermain.activity.weathertoday.viewmodel.WeatherOnTodayViewModel
+import com.weather.weathermain.activity.weathertoday.viewmodel.CurrentWeatherViewModel
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.utils.constants.APP_ID
 import com.weather.weathermain.utils.constants.UNITS
@@ -22,10 +22,10 @@ import kotlinx.android.synthetic.main.activity_weather_on_today.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WeatherOnTodayActivity : AppCompatActivity() {
+class CurrentWeatherActivity : AppCompatActivity() {
     companion object {
         fun launch(context: Context) {
-            val launcher = Intent(context, WeatherOnTodayActivity::class.java)
+            val launcher = Intent(context, CurrentWeatherActivity::class.java)
             context.startActivity(launcher)
         }
     }
@@ -35,7 +35,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
     private var latitude: Double = 0.toDouble()
     private var longitude: Double = 0.toDouble()
 
-    private lateinit var model: WeatherOnTodayViewModel
+    private lateinit var model: CurrentWeatherViewModel
 
    private val calendar: Calendar = Calendar.getInstance()
     private val date: Date = calendar.time
@@ -44,7 +44,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_on_today)
 
-        model = ViewModelProviders.of(this)[WeatherOnTodayViewModel::class.java]
+        model = ViewModelProviders.of(this)[CurrentWeatherViewModel::class.java]
 
         setupUi()
 
@@ -58,7 +58,7 @@ class WeatherOnTodayActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        gpsTracker = GPSTracker(this@WeatherOnTodayActivity)
+        gpsTracker = GPSTracker(this@CurrentWeatherActivity)
 
         if (gpsTracker!!.canGetLocation()) {
             latitude = gpsTracker!!.latitude
