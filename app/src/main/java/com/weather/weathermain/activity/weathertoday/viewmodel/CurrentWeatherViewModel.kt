@@ -54,4 +54,19 @@ class CurrentWeatherViewModel: ViewModel() {
                 .subscribe({_setCurrentWeather().postValue(it)},{ getDataFail(it.printStackTrace())})
     }
 
+    fun translatePlaceName(placeName: String) : String {
+        if (placeName == "Zaporizhzhya") {
+            return "Запорожье"
+        }
+        return  placeName
+    }
+
+    fun translateWeatherName(weatherName: String) : String {
+        return when (weatherName) {
+            "mist" -> "Туман"
+            "broken clouds" -> "Облачно"
+            else -> weatherName
+        }
+    }
+
 }

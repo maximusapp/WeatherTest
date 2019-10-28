@@ -19,6 +19,7 @@
     <dimen name="x_40_large">40dp</dimen>
     <dimen name="x_48_large">48dp</dimen>
     <dimen name="x_56_large">56dp</dimen>
+    <dimen name="x_60_large">60dp</dimen>
     <dimen name="x_64_large">64dp</dimen>
     <dimen name="x_70_large">70dp</dimen>
     <dimen name="x_80_large">80dp</dimen>

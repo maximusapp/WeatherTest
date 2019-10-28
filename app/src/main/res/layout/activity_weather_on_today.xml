@@ -10,6 +10,16 @@
     <android.support.v7.widget.AppCompatImageView
         android:layout_width="@dimen/x_30_large"
         android:layout_height="@dimen/x_30_large"
+        android:layout_marginTop="@dimen/x_large"
+        android:layout_marginStart="@dimen/large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_refresh"
+        tools:ignore="MissingConstraints" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="@dimen/x_30_large"
+        android:layout_height="@dimen/x_30_large"
         android:layout_marginTop="@dimen/large"
         android:layout_marginEnd="@dimen/standard"
         app:layout_constraintEnd_toStartOf="@+id/place"
@@ -52,11 +62,24 @@
             android:layout_height="match_parent"
             >
 
+            <ProgressBar
+                android:id="@+id/iv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x_64_large"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_haze_day"
+                tools:ignore="MissingConstraints" />
+
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_weather_today"
                 android:layout_width="@dimen/x_150_large"
                 android:layout_height="@dimen/x_150_large"
                 android:layout_marginTop="@dimen/large"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -71,17 +94,31 @@
                 android:layout_marginTop="@dimen/standard"
                 android:fontFamily="@font/roboto_italic"
                 android:text="@string/current_weather_name"
+                android:visibility="invisible"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/x_large_sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_weather_today" />
 
+
+            <ProgressBar
+                android:id="@+id/tv_degree_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/x_60_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_weather_name"
+                />
+
             <LinearLayout
                 android:id="@+id/main_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="invisible"
                 android:layout_marginTop="@dimen/x_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

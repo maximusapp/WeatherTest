@@ -9,15 +9,13 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import com.weather.weathermain.R
 import com.weather.weathermain.activity.weathertoday.viewmodel.CurrentWeatherViewModel
 import com.weather.weathermain.data.LocationData
 import com.weather.weathermain.data.WeatherOnTodayResponse
-import com.weather.weathermain.utils.constants.APP_ID
-import com.weather.weathermain.utils.constants.UNITS
-import com.weather.weathermain.utils.extensions.currentDayFormat
-import com.weather.weathermain.utils.extensions.currentMonthFormat
-import com.weather.weathermain.utils.extensions.timeFormat
+import com.weather.weathermain.utils.constants.*
+import com.weather.weathermain.utils.extensions.*
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
 import java.util.*
 
@@ -57,11 +55,15 @@ class CurrentWeatherActivity : AppCompatActivity() {
         weatherModel._setCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> {
             weatherModel.getWeatherIcon(it!!.weather[0].icon!!)
 
-            place.text = it.name
-            tv_weather_name.text = it.weather[0].description
+            tv_weather_name.visibility = View.VISIBLE
+            main_container.visibility = View.VISIBLE
+            tv_degree_progress.visibility = View.GONE
+
+            place.text = weatherModel.translatePlaceName(it.name!!)
+            tv_weather_name.text = weatherModel.translateWeatherName(it.weather[0].description!!)
             tv_degree.text = it.main?.temp
-            tv_humidity.text = it.main?.humidity
-            tv_pressure.text = it.main?.pressure
+            tv_humidity.text = it.main!!.humidity
+            tv_pressure.text = it.main.pressure
             tv_wind_speed_value.text = it.wind?.speed
 
             tv_current_day.text = currentDayFormat(date.time)
@@ -72,7 +74,9 @@ class CurrentWeatherActivity : AppCompatActivity() {
         })
 
         weatherModel._setWeatherIcon().observe(this, Observer<Int> { icon ->
-            iv_weather_today.setImageResource(icon!!)
+                iv_progress.visibility = View.GONE
+                iv_weather_today.visibility = View.VISIBLE
+                iv_weather_today.setImageResource(icon!!)
         })
 
         weatherModel._getDatFail().observe(this, Observer<String> { data_fail ->
