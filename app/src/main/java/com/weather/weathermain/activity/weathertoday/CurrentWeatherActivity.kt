@@ -15,8 +15,10 @@ import com.weather.weathermain.data.LocationData
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.utils.constants.APP_ID
 import com.weather.weathermain.utils.constants.UNITS
+import com.weather.weathermain.utils.extensions.currentDayFormat
+import com.weather.weathermain.utils.extensions.currentMonthFormat
+import com.weather.weathermain.utils.extensions.timeFormat
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CurrentWeatherActivity : AppCompatActivity() {
@@ -24,59 +26,56 @@ class CurrentWeatherActivity : AppCompatActivity() {
         private const val LOCATION = "location"
         @JvmStatic
         fun launch(context: Context, locationData: LocationData?) {
-            val launcher = Intent(context, CurrentWeatherActivity::class.java).putExtra(LOCATION, locationData as Parcelable)
+            val launcher = Intent(context, CurrentWeatherActivity::class.java)
+                    .putExtra(LOCATION, locationData as Parcelable)
             context.startActivity(launcher)
         }
     }
 
-    private fun extraLocatio() = intent.getParcelableExtra<LocationData>(LOCATION)
+    private fun location() = intent.getParcelableExtra<LocationData>(LOCATION)
 
-    private lateinit var model: CurrentWeatherViewModel
-
-   private val calendar: Calendar = Calendar.getInstance()
+    private lateinit var weatherModel: CurrentWeatherViewModel
+    private val calendar: Calendar = Calendar.getInstance()
     private val date: Date = calendar.time
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_on_today)
 
-        model = ViewModelProviders.of(this)[CurrentWeatherViewModel::class.java]
+        weatherModel = ViewModelProviders.of(this)[CurrentWeatherViewModel::class.java]
 
         setupUi()
-
         requestLiveData()
         setViewLiveData()
     }
 
     private fun requestLiveData() {
-        model.requestCurrentWeather(extraLocatio()!!.latitude, extraLocatio()!!.longitude, UNITS, APP_ID)
+        weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID)
     }
 
     private fun setViewLiveData() {
-        model._setCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
-            place.text = data!!.name
+        weatherModel._setCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> {
+            weatherModel.getWeatherIcon(it!!.weather[0].icon!!)
 
-            model.getWeatherIcon(data.weather[0].icon!!)
+            place.text = it.name
+            tv_weather_name.text = it.weather[0].description
+            tv_degree.text = it.main?.temp
+            tv_humidity.text = it.main?.humidity
+            tv_pressure.text = it.main?.pressure
+            tv_wind_speed_value.text = it.wind?.speed
 
-            tv_weather_name.text = data.weather[0].description
-            tv_degree.text = data.main?.temp
-            tv_humidity.text = data.main?.humidity
-            tv_pressure.text = data.main?.pressure
-            tv_wind_speed_value.text = data.wind?.speed
+            tv_current_day.text = currentDayFormat(date.time)
+            tv_current_month.text = currentMonthFormat(date.time)
 
-            tv_current_day.text = SimpleDateFormat("EEEE", Locale.getDefault()).format(date.time)
-            tv_current_month.text = SimpleDateFormat("MMMM, d", Locale.getDefault()).format(date.time)
-
-            tv_sunrise_value.text = SimpleDateFormat("hh:mm", Locale.getDefault()).format(data.sys?.sunrise!! * 1000L)
-            tv_sunset_value.text = SimpleDateFormat("hh:mm", Locale.getDefault()).format(data.sys.sunset!! * 1000L)
-
+            tv_sunrise_value.text = timeFormat(it.sys?.sunrise!!)
+            tv_sunset_value.text = timeFormat(it.sys.sunset!!)
         })
 
-        model._setWeatherIcon().observe(this, Observer<Int> { icon ->
+        weatherModel._setWeatherIcon().observe(this, Observer<Int> { icon ->
             iv_weather_today.setImageResource(icon!!)
         })
 
-        model._getDatFail().observe(this, Observer<String> { data_fail ->
+        weatherModel._getDatFail().observe(this, Observer<String> { data_fail ->
             Log.d("DATA_IS_FAIL ", data_fail.toString())
         })
 
@@ -89,7 +88,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun setupClickListeners() {
 //        RxView.clicks(btnBack)
-//                .subscribe { model.getWeatherIcon() }
+//                .subscribe { weatherModel.getWeatherIcon() }
     }
 
 } // 178

@@ -44,7 +44,7 @@ class CurrentWeatherViewModel: ViewModel() {
         return "Unknown Icon"
     }
 
-    fun getDataFail(error: Unit) {
+    private fun getDataFail(error: Unit) {
         _getDatFail().postValue(error.toString())
     }
 
