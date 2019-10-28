@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_weather_today -> CurrentWeatherActivity.launch(this)
+            //R.id.nav_weather_today -> CurrentWeatherActivity.launch(this)
             R.id.nav_weather_week -> { }
             R.id.nav_drawer_settings -> {
                 SettingsActivity.launch(this)

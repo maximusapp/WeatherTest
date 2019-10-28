@@ -1,20 +1,17 @@
 package com.weather.weathermain.activity.weathertoday
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
 import com.weather.weathermain.activity.weathertoday.viewmodel.CurrentWeatherViewModel
+import com.weather.weathermain.data.LocationData
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.utils.constants.APP_ID
 import com.weather.weathermain.utils.constants.UNITS
@@ -24,16 +21,15 @@ import java.util.*
 
 class CurrentWeatherActivity : AppCompatActivity() {
     companion object {
-        fun launch(context: Context) {
-            val launcher = Intent(context, CurrentWeatherActivity::class.java)
+        private const val LOCATION = "location"
+        @JvmStatic
+        fun launch(context: Context, locationData: LocationData?) {
+            val launcher = Intent(context, CurrentWeatherActivity::class.java).putExtra(LOCATION, locationData as Parcelable)
             context.startActivity(launcher)
         }
     }
 
-    private var gpsTracker: GPSTracker? = null
-
-    private var latitude: Double = 0.toDouble()
-    private var longitude: Double = 0.toDouble()
+    private fun extraLocatio() = intent.getParcelableExtra<LocationData>(LOCATION)
 
     private lateinit var model: CurrentWeatherViewModel
 
@@ -48,32 +44,12 @@ class CurrentWeatherActivity : AppCompatActivity() {
 
         setupUi()
 
-        try {
-            if (ContextCompat.checkSelfPermission(applicationContext,
-                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        gpsTracker = GPSTracker(this@CurrentWeatherActivity)
-
-        if (gpsTracker!!.canGetLocation()) {
-            latitude = gpsTracker!!.latitude
-            longitude = gpsTracker!!.longitude
-
-        } else {
-            gpsTracker!!.showSettingsAlert()
-        }
-
-        observeLiveData()
+        requestLiveData()
         setViewLiveData()
     }
 
-    private fun observeLiveData() {
-        model.requestCurrentWeather(latitude, longitude, UNITS, APP_ID)
+    private fun requestLiveData() {
+        model.requestCurrentWeather(extraLocatio()!!.latitude, extraLocatio()!!.longitude, UNITS, APP_ID)
     }
 
     private fun setViewLiveData() {
