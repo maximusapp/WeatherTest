@@ -10,7 +10,6 @@ import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.jakewharton.rxbinding2.view.RxView
 import com.weather.weathermain.R
@@ -103,6 +102,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun setupClickListeners() {
         RxView.clicks(iv_update_current_weather)
+                .doOnNext { weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID) }
                 .subscribe { weatherModel.setUpdate(true) }
     }
 
