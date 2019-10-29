@@ -13,7 +13,9 @@
     <dimen name="standard">8dp</dimen>
     <dimen name="x_standard">12dp</dimen>
     <dimen name="large">16dp</dimen>
-    <dimen name="x_large">24dp</dimen>
+    <dimen name="x_18_large">18dp</dimen>
+    <dimen name="x_20_large">20dp</dimen>
+    <dimen name="x_24_large">24dp</dimen>
     <dimen name="x_30_large">30dp</dimen>
     <dimen name="xx_large">32dp</dimen>
     <dimen name="x_40_large">40dp</dimen>

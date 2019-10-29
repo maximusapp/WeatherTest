@@ -5,12 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGray">
+    android:background="@drawable/current_weather_grad_bg">
 
     <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_update_current_weather"
         android:layout_width="@dimen/x_30_large"
         android:layout_height="@dimen/x_30_large"
-        android:layout_marginTop="@dimen/x_large"
+        android:layout_marginTop="@dimen/x_24_large"
         android:layout_marginStart="@dimen/large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,11 +21,11 @@
     <android.support.v7.widget.AppCompatImageView
         android:layout_width="@dimen/x_30_large"
         android:layout_height="@dimen/x_30_large"
-        android:layout_marginTop="@dimen/large"
+        android:layout_marginTop="@dimen/x_18_large"
         android:layout_marginEnd="@dimen/standard"
         app:layout_constraintEnd_toStartOf="@+id/place"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_marker_three"
+        app:srcCompat="@drawable/ic_location"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -44,7 +45,7 @@
     <android.support.v7.widget.AppCompatImageView
         android:layout_width="@dimen/x_30_large"
         android:layout_height="@dimen/x_30_large"
-        android:layout_marginTop="@dimen/x_large"
+        android:layout_marginTop="@dimen/x_24_large"
         android:layout_marginEnd="@dimen/x_standard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -92,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/standard"
-                android:fontFamily="@font/roboto_italic"
+                android:fontFamily="@font/roboto_light"
                 android:text="@string/current_weather_name"
                 android:visibility="invisible"
                 android:textColor="@color/colorWhite"
@@ -119,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="invisible"
-                android:layout_marginTop="@dimen/x_large"
+                android:layout_marginTop="@dimen/x_24_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_weather_name"
