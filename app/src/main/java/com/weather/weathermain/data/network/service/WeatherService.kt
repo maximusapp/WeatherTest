@@ -20,6 +20,12 @@ interface WeatherService {
                     @Query("units") units: String,
                     @Query("appid") appid: String): Call<WeatherForecast>
 
+    @GET("forecast")
+    fun getForecastt(@Query("lat") lat: Double?,
+                    @Query("lon") lon: Double?,
+                    @Query("units") units: String,
+                    @Query("appid") appid: String): Single<WeatherForecast>
+
     // Current weather data
     @GET("weather")
     fun getWeatherd(@Query("lat") lat: Double,

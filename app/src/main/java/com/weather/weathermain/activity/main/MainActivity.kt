@@ -1,5 +1,7 @@
 package com.weather.weathermain.activity.main
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -16,28 +18,24 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
-
-import com.weather.weathermain.activity.settings.SettingsActivity
-import com.weather.weathermain.activity.weathertoday.WeatherOnTodayActivity
 import com.weather.weathermain.activity.main.adapter.WeatherMainAdapter
-import com.weather.weathermain.utils.constants.APP_PREFERENCES
+import com.weather.weathermain.activity.main.mainviewmodel.MainActivityViewModel
+import com.weather.weathermain.activity.settings.SettingsActivity
+import com.weather.weathermain.activity.weathertoday.CurrentWeatherActivity
 import com.weather.weathermain.data.ListData
 import com.weather.weathermain.data.WeatherForecast
-import com.weather.weathermain.utils.extensions.showToastLong
-import com.weather.weathermain.data.network.service.WeatherService
-import com.weather.weathermain.utils.extensions.showToastShort
+import com.weather.weathermain.utils.constants.APP_ID
+import com.weather.weathermain.utils.constants.APP_PREFERENCES
+import com.weather.weathermain.utils.constants.UNITS
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.Objects
+import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -48,19 +46,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private lateinit var model: MainActivityViewModel
+
     private var gpsTracker: GPSTracker? = null
 
     private var latitude: Double = 0.toDouble()
     private var longitude: Double = 0.toDouble()
 
-    private var units = "metric"
-    var app_id: String = "c3eebf803f44713f50e31a7c5b215a73"
-
-    private var recyclerView: RecyclerView? = null
     private var weatherMainAdapter: WeatherMainAdapter? = null
     private var linearLayoutManager: LinearLayoutManager? = null
-
-    private var logOut: TextView? = null
 
     private var sharedPreferences: SharedPreferences? = null
 
@@ -93,17 +87,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             gpsTracker!!.showSettingsAlert()
         }
 
-        callWeather()
+        model = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
+        model.requestForecastWeek(latitude, longitude, UNITS, APP_ID)
+
+        model._getDataFail().observe(this, Observer<String> { data_fail ->
+            Log.d("DATA_IS_FAIL ", data_fail.toString())
+        })
+
+        model._getForecastWeek().observe(this, Observer<WeatherForecast>{ data_forecast ->
+            generateDataList(data_forecast!!.list)
+        })
 
         sharedPreferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
         val switchAskExitState = sharedPreferences!!.getBoolean("switchAskWhenExit", false)
 
-        recyclerView = findViewById(R.id.recycler_main)
         linearLayoutManager = LinearLayoutManager(this)
-        recyclerView!!.layoutManager = linearLayoutManager
+        recycler_main.layoutManager = linearLayoutManager
 
-        logOut = findViewById(R.id.log_out)
-        logOut!!.setOnClickListener {
+        log_out.setOnClickListener {
             val title = resources.getString(R.string.ask_exit)
             val button1 = resources.getString(R.string.ask_exit_yes)
             val button2 = resources.getString(R.string.ask_exit_no)
@@ -130,37 +131,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    private fun callWeather() {
-
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://apid.openweathermap.org/data/2.5/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-        val callToServer = retrofit.create<WeatherService>(WeatherService::class.java)
-
-        val call = callToServer.getForecast(latitude, longitude, units, app_id)
-        call.enqueue(object : Callback<WeatherForecast> {
-            override fun onResponse(call: Call<WeatherForecast>, response: Response<WeatherForecast>) {
-
-                if (response.isSuccessful) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        generateDataList(Objects.requireNonNull<WeatherForecast>(response.body()).list)
-                    }
-                }
-                showToastLong("OK")
-            }
-
-            override fun onFailure(call: Call<WeatherForecast>, t: Throwable) {
-                showToastShort("NOT_OK")
-            }
-        })
-
-    }
-
     fun generateDataList(body: List<ListData>) {
         weatherMainAdapter = WeatherMainAdapter(body)
-        recyclerView!!.adapter = weatherMainAdapter
+        recycler_main!!.adapter = weatherMainAdapter
     }
 
     override fun onBackPressed() {
@@ -172,6 +145,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         return if (id == R.id.action_settings) {
@@ -181,7 +159,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_weather_today -> WeatherOnTodayActivity.launch(this)
+            //R.id.nav_weather_today -> CurrentWeatherActivity.launch(this)
             R.id.nav_weather_week -> { }
             R.id.nav_drawer_settings -> {
                 SettingsActivity.launch(this)

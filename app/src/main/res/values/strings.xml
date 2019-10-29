@@ -24,5 +24,36 @@
     <string name="ask_exit_yes">Да</string>
     <string name="ask_exit_no">Нет</string>
     <string name="current_weather_title">Погода на сегодня</string>
+    <string name="todo">TODO</string>
+    <string name="current_weather_place">Place</string>
+    <string name="current_weather_name">Weather name</string>
+    <string name="current_day">Current day</string>
+    <string name="current_weather_degree">10</string>
+    <string name="current_month">August, 28</string>
+    <string name="tv_degree">C</string>
+    <string name="tv_degree_item">0</string>
+    <string name="tv_humidity">Влажность</string>
+    <string name="tv_humidity_value">90</string>
+    <string name="tv_humidity_proc">%</string>
+    <string name="tv_pressure">Давление</string>
+    <string name="tv_pressure_value">900</string>
+    <string name="tv_pressure_">мм</string>
+    <string name="tv_wind_speed">Ветер</string>
+    <string name="tv_wind_speed_value">10</string>
+    <string name="tv_wind_speed_value_">м/с</string>
+    <string name="tv_sunrise">Восход</string>
+    <string name="tv_sunrise_time">6:30</string>
+    <string name="tv_sunrise_time_">утра</string>
+    <string name="tv_sunset">Закат</string>
+    <string name="tv_sunset_time">17:00</string>
+    <string name="tv_sunset_time_">вечера</string>
+
+    <string name="zaporizhzhya_city">Zaporizhzhya</string>
+
+    <string name="weather_mist">mist</string>
+    <string name="weather_broken_clouds">broken clouds</string>
+
+    <string name="weather_mist_ru">mist</string>
+    <string name="weather_broken_clouds_ru">broken clouds</string>
 
 </resources>
