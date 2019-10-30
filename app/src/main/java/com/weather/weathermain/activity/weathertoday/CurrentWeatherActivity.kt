@@ -13,15 +13,22 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import com.jakewharton.rxbinding2.view.RxView
 import com.weather.weathermain.R
+import com.weather.weathermain.WeatherApplication
 import com.weather.weathermain.activity.weathertoday.viewmodel.CurrentWeatherViewModel
 import com.weather.weathermain.data.LocationData
 import com.weather.weathermain.data.WeatherOnTodayResponse
+import com.weather.weathermain.data.repository.WeatherRemoteRepository
 import com.weather.weathermain.utils.constants.*
 import com.weather.weathermain.utils.extensions.*
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
 import java.util.*
+import javax.inject.Inject
 
 class CurrentWeatherActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var weatherRemoteRepository: WeatherRemoteRepository
+
     companion object {
         private const val LOCATION = "location"
         @JvmStatic
@@ -41,6 +48,8 @@ class CurrentWeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_on_today)
+        WeatherApplication.appComponent.inject(this)
+        Log.d("DAGGER ", "$weatherRemoteRepository 123_main_dagger")
 
         weatherModel = ViewModelProviders.of(this)[CurrentWeatherViewModel::class.java]
 

@@ -11,7 +11,6 @@ class WeatherApplication : Application() {
 
     companion object {
         lateinit var instance: WeatherApplication
-
         lateinit var appComponent: AppComponent
     }
 

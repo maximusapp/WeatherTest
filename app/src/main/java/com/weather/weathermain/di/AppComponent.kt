@@ -4,7 +4,7 @@ import com.weather.weathermain.activity.weathertoday.CurrentWeatherActivity
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = arrayOf(AppModule::class))
+@Component(modules = [WeatherRemoteRepositoryModule::class])
 
 @Singleton
 interface AppComponent {

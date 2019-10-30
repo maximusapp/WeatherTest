@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel
 import com.weather.weathermain.R
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.data.repository.WeatherRemoteRepository
+import io.reactivex.disposables.CompositeDisposable
 
 class CurrentWeatherViewModel: ViewModel() {
 
@@ -15,6 +16,8 @@ class CurrentWeatherViewModel: ViewModel() {
 
     private val data: MutableLiveData<String> = MutableLiveData()
     private val update: MutableLiveData<Boolean> = MutableLiveData()
+
+    private var disposable: CompositeDisposable = CompositeDisposable()
 
     fun _setCurrentWeather(): MutableLiveData<WeatherOnTodayResponse>  { return currentWeather }
     fun _setWeatherIcon(): MutableLiveData<Int> { return icon }
@@ -87,12 +90,18 @@ class CurrentWeatherViewModel: ViewModel() {
             741 -> "Туман"
             761 -> "Пыль"
 
+            800 -> "Ясно"
             801 -> "Слегка Облачно: 11-25%"
             802 -> "Рассеяные облака: 25-50%"
             803 -> "Облачно: 51-84%"
             804 -> "Пасмурные облака: 85-100%"
             else -> "Неопределенная погода"
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
     }
 
 }
