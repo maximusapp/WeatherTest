@@ -3,16 +3,16 @@ package com.weather.weathermain.activity.weathertoday.viewmodel
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import com.weather.weathermain.R
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.data.repository.WeatherRemoteRepository
 import io.reactivex.disposables.CompositeDisposable
 
-class CurrentWeatherViewModel: ViewModel() {
+class CurrentWeatherViewModel(private val weatherRepository: WeatherRemoteRepository) : ViewModel() {
 
     private var icon: MutableLiveData<Int> = MutableLiveData()
     private var currentWeather: MutableLiveData<WeatherOnTodayResponse> = MutableLiveData()
-    private val weatherRepository = WeatherRemoteRepository()
 
     private val data: MutableLiveData<String> = MutableLiveData()
     private val update: MutableLiveData<Boolean> = MutableLiveData()
@@ -102,6 +102,18 @@ class CurrentWeatherViewModel: ViewModel() {
     override fun onCleared() {
         super.onCleared()
         disposable.clear()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory(
+            private val weatherRemoteRepo: WeatherRemoteRepository
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(CurrentWeatherViewModel::class.java)) {
+                return CurrentWeatherViewModel(weatherRemoteRepo) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 
 }

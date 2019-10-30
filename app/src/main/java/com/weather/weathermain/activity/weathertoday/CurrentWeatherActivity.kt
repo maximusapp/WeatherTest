@@ -29,6 +29,8 @@ class CurrentWeatherActivity : AppCompatActivity() {
     @Inject
     lateinit var weatherRemoteRepository: WeatherRemoteRepository
 
+    private lateinit var factory: CurrentWeatherViewModel.Factory
+
     companion object {
         private const val LOCATION = "location"
         @JvmStatic
@@ -51,7 +53,8 @@ class CurrentWeatherActivity : AppCompatActivity() {
         WeatherApplication.appComponent.inject(this)
         Log.d("DAGGER ", "$weatherRemoteRepository 123_main_dagger")
 
-        weatherModel = ViewModelProviders.of(this)[CurrentWeatherViewModel::class.java]
+        factory = CurrentWeatherViewModel.Factory(weatherRemoteRepository)
+        weatherModel = ViewModelProviders.of(this, factory)[CurrentWeatherViewModel::class.java]
 
         setupUi()
         requestLiveData()
