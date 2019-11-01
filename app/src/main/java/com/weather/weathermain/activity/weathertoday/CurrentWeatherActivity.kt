@@ -25,12 +25,6 @@ import java.util.*
 import javax.inject.Inject
 
 class CurrentWeatherActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var weatherRemoteRepository: WeatherRemoteRepository
-
-    private lateinit var factory: CurrentWeatherViewModel.Factory
-
     companion object {
         private const val LOCATION = "location"
         @JvmStatic
@@ -43,15 +37,17 @@ class CurrentWeatherActivity : AppCompatActivity() {
 
     private fun location() = intent.getParcelableExtra<LocationData>(LOCATION)
 
+    @Inject
+    lateinit var weatherRemoteRepository: WeatherRemoteRepository
+
+    private lateinit var factory: CurrentWeatherViewModel.Factory
     private lateinit var weatherModel: CurrentWeatherViewModel
-    private val calendar: Calendar = Calendar.getInstance()
-    private val date: Date = calendar.time
+    private val date: Date = Calendar.getInstance().time
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_on_today)
         WeatherApplication.appComponent.inject(this)
-        Log.d("DAGGER ", "$weatherRemoteRepository 123_main_dagger")
 
         factory = CurrentWeatherViewModel.Factory(weatherRemoteRepository)
         weatherModel = ViewModelProviders.of(this, factory)[CurrentWeatherViewModel::class.java]

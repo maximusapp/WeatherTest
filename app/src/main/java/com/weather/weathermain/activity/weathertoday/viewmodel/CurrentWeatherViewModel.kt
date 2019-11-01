@@ -26,25 +26,25 @@ class CurrentWeatherViewModel(private val weatherRepository: WeatherRemoteReposi
 
     fun getWeatherIcon(icon: String): String {
        when (icon) {
-           "01d" -> _setWeatherIcon().postValue(R.drawable.icon_clear_sky_day)
-           "02d" -> _setWeatherIcon().postValue(R.drawable.icon_few_clouds_day)
-           "03d" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
-           "04d" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
+           "01d" -> _setWeatherIcon().postValue(R.drawable.ic_sunny)
+           "02d" -> _setWeatherIcon().postValue(R.drawable.ic_cloudy_day)
+           "03d" -> _setWeatherIcon().postValue(R.drawable.ic_clouds)
+           "04d" -> _setWeatherIcon().postValue(R.drawable.ic_clouds)
            "50d" -> _setWeatherIcon().postValue(R.drawable.icon_haze_day)
-           "09d" -> _setWeatherIcon().postValue(R.drawable.icon_shower_rain)
-           "10d" -> _setWeatherIcon().postValue(R.drawable.icon_rain)
-           "11d" -> _setWeatherIcon().postValue(R.drawable.icon_storm)
-           "13d" -> _setWeatherIcon().postValue(R.drawable.icon_snow)
+           "09d" -> _setWeatherIcon().postValue(R.drawable.ic_shower_rain)
+           "10d" -> _setWeatherIcon().postValue(R.drawable.ic_rain)
+           "11d" -> _setWeatherIcon().postValue(R.drawable.ic_storm)
+           "13d" -> _setWeatherIcon().postValue(R.drawable.ic_snow)
 
-           "01n" -> _setWeatherIcon().postValue(R.drawable.icon_clear_sky_night)
+           "01n" -> _setWeatherIcon().postValue(R.drawable.ic_moon)
            "02n" -> _setWeatherIcon().postValue(R.drawable.icon_few_clouds_night)
-           "03n" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
-           "04n" -> _setWeatherIcon().postValue(R.drawable.icon_clouds_day)
+           "03n" -> _setWeatherIcon().postValue(R.drawable.ic_clouds)
+           "04n" -> _setWeatherIcon().postValue(R.drawable.ic_clouds)
            "50n" -> _setWeatherIcon().postValue(R.drawable.icon_haze_night)
-           "09n" -> _setWeatherIcon().postValue(R.drawable.icon_shower_rain)
-           "10n" -> _setWeatherIcon().postValue(R.drawable.icon_rain)
-           "11n" -> _setWeatherIcon().postValue(R.drawable.icon_storm)
-           "13n" -> _setWeatherIcon().postValue(R.drawable.icon_snow)
+           "09n" -> _setWeatherIcon().postValue(R.drawable.ic_shower_rain)
+           "10n" -> _setWeatherIcon().postValue(R.drawable.ic_rain)
+           "11n" -> _setWeatherIcon().postValue(R.drawable.ic_storm)
+           "13n" -> _setWeatherIcon().postValue(R.drawable.ic_snow)
        }
         return "Unknown Icon"
     }
@@ -70,8 +70,8 @@ class CurrentWeatherViewModel(private val weatherRepository: WeatherRemoteReposi
         return  placeName
     }
 
-    fun translateWeatherName(weatherName: Int) : String {
-        return when (weatherName) {
+    fun translateWeatherName(weatherId: Int) : String {
+        return when (weatherId) {
             500 -> "Легкий дождик"
             501 -> "Умеренный дождь"
             502 -> "Интенсивняй дождь"

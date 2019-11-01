@@ -31,7 +31,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
-                app:srcCompat="@drawable/forecasting_rain" />
+                app:srcCompat="@drawable/ic_clouds" />
 
             <LinearLayout
                 android:orientation="vertical"
