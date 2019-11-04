@@ -97,6 +97,10 @@ dependencies {
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     implementation 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
 
+    // Dagger2.
+    implementation 'com.google.dagger:dagger:2.20'
+    kapt 'com.google.dagger:dagger-compiler:2.20'
+
     // LiveData.
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
     implementation 'android.arch.lifecycle:extensions:1.1.1'

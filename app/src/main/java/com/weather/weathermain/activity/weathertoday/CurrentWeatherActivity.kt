@@ -10,14 +10,19 @@ import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
+import com.jakewharton.rxbinding2.view.RxView
 import com.weather.weathermain.R
+import com.weather.weathermain.WeatherApplication
 import com.weather.weathermain.activity.weathertoday.viewmodel.CurrentWeatherViewModel
 import com.weather.weathermain.data.LocationData
 import com.weather.weathermain.data.WeatherOnTodayResponse
+import com.weather.weathermain.data.repository.WeatherRemoteRepository
 import com.weather.weathermain.utils.constants.*
 import com.weather.weathermain.utils.extensions.*
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
 import java.util.*
+import javax.inject.Inject
 
 class CurrentWeatherActivity : AppCompatActivity() {
     companion object {
@@ -32,19 +37,25 @@ class CurrentWeatherActivity : AppCompatActivity() {
 
     private fun location() = intent.getParcelableExtra<LocationData>(LOCATION)
 
+    @Inject
+    lateinit var weatherRemoteRepository: WeatherRemoteRepository
+
+    private lateinit var factory: CurrentWeatherViewModel.Factory
     private lateinit var weatherModel: CurrentWeatherViewModel
-    private val calendar: Calendar = Calendar.getInstance()
-    private val date: Date = calendar.time
+    private val date: Date = Calendar.getInstance().time
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_on_today)
+        WeatherApplication.appComponent.inject(this)
 
-        weatherModel = ViewModelProviders.of(this)[CurrentWeatherViewModel::class.java]
+        factory = CurrentWeatherViewModel.Factory(weatherRemoteRepository)
+        weatherModel = ViewModelProviders.of(this, factory)[CurrentWeatherViewModel::class.java]
 
         setupUi()
         requestLiveData()
         setViewLiveData()
+        observeLiveData()
     }
 
     private fun requestLiveData() {
@@ -60,7 +71,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
             tv_degree_progress.visibility = View.GONE
 
             place.text = weatherModel.translatePlaceName(it.name!!)
-            tv_weather_name.text = weatherModel.translateWeatherName(it.weather[0].description!!)
+            tv_weather_name.text = weatherModel.translateWeatherName(it.weather[0].id!!)
             tv_degree.text = it.main?.temp
             tv_humidity.text = it.main!!.humidity
             tv_pressure.text = it.main.pressure
@@ -85,14 +96,22 @@ class CurrentWeatherActivity : AppCompatActivity() {
 
     }
 
+    private fun observeLiveData(){
+        weatherModel._getUpdate().observe(this, Observer<Boolean> {
+            iv_update_current_weather.startAnimation( AnimationUtils.loadAnimation(
+                    this, R.anim.rotate))
+        })
+    }
+
     private fun setupUi() {
         setupClickListeners()
     }
 
     @SuppressLint("CheckResult")
     private fun setupClickListeners() {
-//        RxView.clicks(btnBack)
-//                .subscribe { weatherModel.getWeatherIcon() }
+        RxView.clicks(iv_update_current_weather)
+                .doOnNext { weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID) }
+                .subscribe { weatherModel.setUpdate(true) }
     }
 
 } // 178

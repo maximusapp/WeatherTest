@@ -32,6 +32,7 @@
     <string name="current_month">August, 28</string>
     <string name="tv_degree">C</string>
     <string name="tv_degree_item">0</string>
+    <string name="tv_additional">Дополнительно</string>
     <string name="tv_humidity">Влажность</string>
     <string name="tv_humidity_value">90</string>
     <string name="tv_humidity_proc">%</string>
