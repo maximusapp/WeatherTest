@@ -21,6 +21,7 @@ import com.weather.weathermain.data.repository.WeatherRemoteRepository
 import com.weather.weathermain.utils.constants.*
 import com.weather.weathermain.utils.extensions.*
 import kotlinx.android.synthetic.main.activity_weather_on_today.*
+import kotlinx.android.synthetic.main.dialog_internet_error.*
 import java.util.*
 import javax.inject.Inject
 
@@ -90,8 +91,11 @@ class CurrentWeatherActivity : AppCompatActivity() {
                 iv_weather_today.setImageResource(icon!!)
         })
 
-        weatherModel._getDatFail().observe(this, Observer<String> { data_fail ->
-            Log.d("DATA_IS_FAIL ", data_fail.toString())
+        weatherModel._getDatFail().observe(this, Observer<Boolean> { is_error ->
+            if (is_error!!) {
+                main_container_dialog.visibility = View.VISIBLE
+                viewDim.visibility = View.VISIBLE
+            }
         })
 
     }
@@ -101,6 +105,12 @@ class CurrentWeatherActivity : AppCompatActivity() {
             iv_update_current_weather.startAnimation( AnimationUtils.loadAnimation(
                     this, R.anim.rotate))
         })
+
+        weatherModel._setCloseBtnClicked().observe(this, Observer<Boolean> {
+            main_container_dialog.visibility = View.GONE
+            viewDim.visibility = View.GONE
+        })
+
     }
 
     private fun setupUi() {
@@ -112,6 +122,17 @@ class CurrentWeatherActivity : AppCompatActivity() {
         RxView.clicks(iv_update_current_weather)
                 .doOnNext { weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID) }
                 .subscribe { weatherModel.setUpdate(true) }
+
+        RxView.clicks(btnCloseDialog)
+                .subscribe{ weatherModel.setCloseBtnClicked(true) }
+
+        RxView.clicks(btnUpdateInternet)
+                .doOnNext { main_container_dialog.visibility = View.GONE }
+                .doOnNext {  viewDim.visibility = View.GONE }
+                .doOnNext {  weatherModel.setUpdate(true) }
+                .doOnNext { weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID) }
+                .subscribe { weatherModel.setUpdate(true) }
+
     }
 
 } // 178

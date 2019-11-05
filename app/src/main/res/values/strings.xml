@@ -56,5 +56,6 @@
 
     <string name="weather_mist_ru">mist</string>
     <string name="weather_broken_clouds_ru">broken clouds</string>
+    <string name="update_weather_request">Обновить</string>
 
 </resources>

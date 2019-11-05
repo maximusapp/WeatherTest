@@ -445,4 +445,21 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+    <View
+        android:id="@+id/viewDim"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorViewDim"
+        android:clickable="true"
+        android:focusable="true"
+        android:translationZ="@dimen/standard"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <include layout="@layout/dialog_internet_error"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -4,12 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorDrawerBackground">#202020</color>
-    <color name="colorWhite">#f7f7f7</color>
+    <color name="colorWhite">#F7F7F7</color>
 
     <color name="colorOrange">#c19418</color>
     <color name="colorGray">#333333</color>
     <color name="colorGrayLight">#D5494949</color>
     <color name="colorCastom">#243C58</color>
+    <color name="colorViewDim">#A3243C58</color>
+    <color name="colorRed">#f44336</color>
 
 
 </resources>

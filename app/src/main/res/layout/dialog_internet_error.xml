@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/main_container_dialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:visibility="gone"
+    tools:visibility="visible"
+    android:clickable="true"
+    android:elevation="@dimen/standard"
+    android:focusable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+
+    <android.support.v7.widget.CardView
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:paddingTop="@dimen/x_30_large"
+        android:paddingBottom="@dimen/x_30_large"
+        android:paddingStart="@dimen/large"
+        android:paddingEnd="@dimen/large">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:paddingTop="@dimen/x_30_large"
+        android:paddingBottom="@dimen/x_30_large"
+        android:paddingStart="@dimen/large"
+        android:paddingEnd="@dimen/large">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/x_28_sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/colorGrayLight"
+            android:gravity="center_horizontal"
+            android:text="Проблемы с Internet"
+            />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="@dimen/x_250_large"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_sp"
+            android:layout_marginTop="@dimen/x_20_large"
+            android:layout_gravity="center"
+            android:textColor="@color/colorCastom"
+            android:gravity="center_horizontal"
+            android:text="Возможно у Вас отключен Интернет, или же пропала связь с Интернетом из-за каких-либо других причин"
+            />
+
+        <Button
+            android:id="@+id/btnUpdateInternet"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x_40_large"
+            android:text="@string/update_weather_request" />
+    </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnCloseDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/x_56_large"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@color/colorWhite"
+        app:srcCompat="@drawable/ic_close_btn" />
+</LinearLayout>
