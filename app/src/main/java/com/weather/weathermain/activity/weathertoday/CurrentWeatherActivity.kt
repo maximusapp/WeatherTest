@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import com.jakewharton.rxbinding2.view.RxView
@@ -64,38 +63,39 @@ class CurrentWeatherActivity : AppCompatActivity() {
     }
 
     private fun setViewLiveData() {
-        weatherModel._setCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> {
-            weatherModel.getWeatherIcon(it!!.weather[0].icon!!)
+        weatherModel._setCurrentWeather().observe(this, Observer<WeatherOnTodayResponse> { data ->
+            iv_update_current_weather.setImageResource(R.drawable.ic_refresh)
 
-            tv_weather_name.visibility = View.VISIBLE
-            main_container.visibility = View.VISIBLE
+            weatherModel.getWeatherIcon(data!!.weather[0].icon!!)
+
+            main_container_two.showViewWithScaleAnim()
+            main_container.showViewWithScaleAnim(400)
+            container_additional.showViewWithScaleAnim(500)
+
             tv_degree_progress.visibility = View.GONE
 
-            place.text = weatherModel.translatePlaceName(it.name!!)
-            tv_weather_name.text = weatherModel.translateWeatherName(it.weather[0].id!!)
-            tv_degree.text = it.main?.temp
-            tv_humidity.text = it.main!!.humidity
-            tv_pressure.text = it.main.pressure
-            tv_wind_speed_value.text = it.wind?.speed
+            place.text = weatherModel.translatePlaceName(data.name!!)
+            tv_weather_name.text = weatherModel.translateWeatherName(data.weather[0].id!!)
+            tv_degree.text = data.main?.temp
+            tv_humidity.text = data.main!!.humidity
+            tv_pressure.text = data.main.pressure
+            tv_wind_speed_value.text = data.wind?.speed
 
             tv_current_day.text = currentDayFormat(date.time)
             tv_current_month.text = currentMonthFormat(date.time)
 
-            tv_sunrise_value.text = timeFormat(it.sys?.sunrise!!)
-            tv_sunset_value.text = timeFormat(it.sys.sunset!!)
+            tv_sunrise_value.text = timeFormat(data.sys?.sunrise!!)
+            tv_sunset_value.text = timeFormat(data.sys.sunset!!)
         })
 
         weatherModel._setWeatherIcon().observe(this, Observer<Int> { icon ->
                 iv_progress.visibility = View.GONE
-                iv_weather_today.visibility = View.VISIBLE
                 iv_weather_today.setImageResource(icon!!)
         })
 
-        weatherModel._getDatFail().observe(this, Observer<Boolean> { is_error ->
-            if (is_error!!) {
-                main_container_dialog.visibility = View.VISIBLE
+        weatherModel._getDatFail().observe(this, Observer<Boolean> {
+                main_container_dialog.showViewWithScaleAnim()
                 viewDim.visibility = View.VISIBLE
-            }
         })
 
     }
@@ -109,6 +109,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
         weatherModel._setCloseBtnClicked().observe(this, Observer<Boolean> {
             main_container_dialog.visibility = View.GONE
             viewDim.visibility = View.GONE
+            iv_update_current_weather.setImageResource(R.drawable.ic_should_refresh)
         })
 
     }
@@ -128,11 +129,9 @@ class CurrentWeatherActivity : AppCompatActivity() {
 
         RxView.clicks(btnUpdateInternet)
                 .doOnNext { main_container_dialog.visibility = View.GONE }
-                .doOnNext {  viewDim.visibility = View.GONE }
-                .doOnNext {  weatherModel.setUpdate(true) }
-                .doOnNext { weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID) }
-                .subscribe { weatherModel.setUpdate(true) }
-
+                .doOnNext { viewDim.visibility = View.GONE }
+                .doOnNext { weatherModel.setUpdate(true) }
+                .subscribe { weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID) }
     }
 
 } // 178
