@@ -8,6 +8,7 @@ import com.weather.weathermain.R
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.data.repository.WeatherRemoteRepository
 import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class CurrentWeatherViewModel(private val weatherRepository: WeatherRemoteRepository) : ViewModel() {
 

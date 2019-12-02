@@ -72,8 +72,6 @@ class CurrentWeatherActivity : AppCompatActivity() {
             main_container.showViewWithScaleAnim(400)
             container_additional.showViewWithScaleAnim(500)
 
-            tv_degree_progress.visibility = View.GONE
-
             place.text = weatherModel.translatePlaceName(data.name!!)
             tv_weather_name.text = weatherModel.translateWeatherName(data.weather[0].id!!)
             tv_degree.text = data.main?.temp
@@ -86,6 +84,7 @@ class CurrentWeatherActivity : AppCompatActivity() {
 
             tv_sunrise_value.text = timeFormat(data.sys?.sunrise!!)
             tv_sunset_value.text = timeFormat(data.sys.sunset!!)
+            tv_last_update_time.text = timeFormat(data.dt!!)
         })
 
         weatherModel._setWeatherIcon().observe(this, Observer<Int> { icon ->

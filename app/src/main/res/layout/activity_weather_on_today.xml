@@ -75,6 +75,35 @@
                 app:srcCompat="@drawable/icon_haze_day"
                 tools:ignore="MissingConstraints" />
 
+
+            <TextView
+                android:id="@+id/tv_last_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/x_4_large"
+                android:layout_marginStart="@dimen/standard"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/last_update_weather"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/large_sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_last_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/x_4_large"
+                android:layout_marginStart="@dimen/x_6_large"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/last_update_weather_time"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/large_sp"
+                app:layout_constraintStart_toEndOf="@id/tv_last_update"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <LinearLayout
                 android:id="@+id/main_container_two"
                 android:layout_width="match_parent"
@@ -87,7 +116,7 @@
                 android:foreground="?android:selectableItemBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_last_update"
                 tools:ignore="MissingConstraints"
                 android:visibility="invisible"
                 tools:visibility="visible">
@@ -112,16 +141,6 @@
                     android:textSize="@dimen/x_large_sp" />
 
             </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/tv_degree_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/x_60_large"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_container_two" />
 
             <LinearLayout
                 android:id="@+id/main_container"
