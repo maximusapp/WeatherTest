@@ -28,6 +28,7 @@
     <dimen name="x_90_large">90dp</dimen>
     <dimen name="x_120_large">120dp</dimen>
     <dimen name="x_150_large">150dp</dimen>
+    <dimen name="x_250_large">250dp</dimen>
 
     <dimen name="standard_sp">8sp</dimen>
     <dimen name="x_standard_sp">12sp</dimen>

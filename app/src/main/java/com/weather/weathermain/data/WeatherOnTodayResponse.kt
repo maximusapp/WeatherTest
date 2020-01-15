@@ -9,7 +9,7 @@ class WeatherOnTodayResponse {
     val base: String? = null
     val main: MainWeatherData? = null
     val clouds: CloudsData? = null
-    val dt: String? = null
+    val dt: Long? = null
     val wind: WindData? = null
     val sys: SysData? = null
 

@@ -8,21 +8,24 @@ import com.weather.weathermain.R
 import com.weather.weathermain.data.WeatherOnTodayResponse
 import com.weather.weathermain.data.repository.WeatherRemoteRepository
 import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class CurrentWeatherViewModel(private val weatherRepository: WeatherRemoteRepository) : ViewModel() {
 
     private var icon: MutableLiveData<Int> = MutableLiveData()
     private var currentWeather: MutableLiveData<WeatherOnTodayResponse> = MutableLiveData()
 
-    private val data: MutableLiveData<String> = MutableLiveData()
+    private val data: MutableLiveData<Boolean> = MutableLiveData()
     private val update: MutableLiveData<Boolean> = MutableLiveData()
+    private val closeBtnClicked: MutableLiveData<Boolean> = MutableLiveData()
 
     private var disposable: CompositeDisposable = CompositeDisposable()
 
     fun _setCurrentWeather(): MutableLiveData<WeatherOnTodayResponse>  { return currentWeather }
     fun _setWeatherIcon(): MutableLiveData<Int> { return icon }
-    fun _getDatFail(): MutableLiveData<String> { return data }
+    fun _getDatFail(): MutableLiveData<Boolean> { return data }
     fun _getUpdate(): MutableLiveData<Boolean> { return update }
+    fun _setCloseBtnClicked(): MutableLiveData<Boolean> { return closeBtnClicked }
 
     fun getWeatherIcon(icon: String): String {
        when (icon) {
@@ -49,18 +52,18 @@ class CurrentWeatherViewModel(private val weatherRepository: WeatherRemoteReposi
         return "Unknown Icon"
     }
 
-    private fun getDataFail(error: Unit) {
-        _getDatFail().postValue(error.toString())
-    }
-
      @SuppressLint("CheckResult")
      fun requestCurrentWeather(lat: Double, lon: Double, units: String, appid: String) {
         weatherRepository.getCurrentWeatherData(lat, lon, units, appid)
-                .subscribe({_setCurrentWeather().postValue(it)},{ getDataFail(it.printStackTrace())})
+                .subscribe({_setCurrentWeather().postValue(it)},{ _getDatFail().postValue(true) })
     }
 
     fun setUpdate(update: Boolean){
         _getUpdate().postValue(update)
+    }
+
+    fun setCloseBtnClicked(isClosed: Boolean) {
+        _setCloseBtnClicked().postValue(isClosed)
     }
 
     fun translatePlaceName(placeName: String) : String {

@@ -1,6 +1,7 @@
 package com.weather.weathermain.utils.extensions
 
 import android.content.Context
+import android.view.View
 import android.widget.Toast
 import com.orhanobut.logger.Logger
 import java.text.SimpleDateFormat
@@ -18,14 +19,29 @@ fun prettyLog(msg: Any) {
     Logger.d(msg)
 }
 
-fun currentDayFormat(time: Long) : String? {
+fun View.show() {
+    this.visibility = (View.VISIBLE)
+}
+
+fun currentDayFormat(time: Long): String? {
     return SimpleDateFormat("EEEE", Locale.getDefault()).format(time)
 }
 
-fun currentMonthFormat(time: Long) : String? {
+fun currentMonthFormat(time: Long): String? {
     return SimpleDateFormat("MMMM, d", Locale.getDefault()).format(time)
 }
 
-fun timeFormat(time: Long) : String? {
+fun timeFormat(time: Long): String? {
     return SimpleDateFormat("hh:mm", Locale.getDefault()).format(time * 1000L)
+}
+
+fun View.showViewWithScaleAnim(duration: Long = 300) {
+    scaleX = 0f
+    scaleY = 0f
+    this.show()
+    animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .setDuration(duration)
+            .start()
 }
