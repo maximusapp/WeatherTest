@@ -7,7 +7,7 @@ import java.io.Serializable
 data class LocationData(
          var latitude: Double,
          var longitude: Double
-) : Serializable, Parcelable {
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readDouble(),

@@ -58,6 +58,10 @@ class CurrentWeatherActivity : AppCompatActivity() {
         observeLiveData()
     }
 
+    private fun setupUi() {
+        setupClickListeners()
+    }
+
     private fun requestLiveData() {
         weatherModel.requestCurrentWeather(location()!!.latitude, location()!!.longitude, UNITS, APP_ID)
     }
@@ -101,10 +105,6 @@ class CurrentWeatherActivity : AppCompatActivity() {
             iv_update_current_weather.startAnimation( AnimationUtils.loadAnimation(
                     this, R.anim.rotate))
         })
-    }
-
-    private fun setupUi() {
-        setupClickListeners()
     }
 
     @SuppressLint("CheckResult")

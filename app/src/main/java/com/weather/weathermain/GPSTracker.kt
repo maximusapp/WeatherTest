@@ -19,32 +19,32 @@ import android.util.Log
 
 class GPSTracker(private val mContext: Activity) : Service(), LocationListener {
     // flag for GPS status
-    internal var isGPSEnabled = false
+    private var isGPSEnabled = false
     // flag for network status
-    internal var isNetworkEnabled = false
+    private var isNetworkEnabled = false
     // flag for GPS status
     internal var canGetLocation = false
 
-    internal var location: Location? = null // location
+    private var location: Location? = null // location
     internal var latitude: Double = 0.toDouble() // latitude
     internal var longitude: Double = 0.toDouble() // longitude
     // Declaring a Location Manager
-    protected var locationManager: LocationManager? = null
+    private var locationManager: LocationManager? = null
 
     init {
-        if (ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation()
         } else {
-            ActivityCompat.requestPermissions(mContext, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            ActivityCompat.requestPermissions(mContext, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
         }
 
     }
 
-    fun getLocation(): Location? {
+   private fun getLocation(): Location? {
         try {
             locationManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             // getting GPS status
-            //assert(locationManager != null)
+            assert(locationManager != null)
             isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
             // getting network status
             isNetworkEnabled = locationManager!!
@@ -59,7 +59,7 @@ class GPSTracker(private val mContext: Activity) : Service(), LocationListener {
                     if (ActivityCompat.checkSelfPermission(mContext,
                                     Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(mContext,
-                                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
+                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
                     }
                     locationManager!!.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
@@ -81,7 +81,7 @@ class GPSTracker(private val mContext: Activity) : Service(), LocationListener {
                         //check the network permission
                         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             ActivityCompat.requestPermissions(mContext,
-                                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
+                                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
                         }
                         locationManager!!.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -176,7 +176,6 @@ class GPSTracker(private val mContext: Activity) : Service(), LocationListener {
     }
 
     companion object {
-
         // The minimum distance to change Updates in meters
         private val MIN_DISTANCE_CHANGE_FOR_UPDATES: Long = 10 // 10 meters
         // The minimum time between updates in milliseconds

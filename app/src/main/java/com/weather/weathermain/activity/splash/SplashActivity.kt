@@ -1,10 +1,6 @@
 package com.weather.weathermain.activity.splash
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.weather.weathermain.GPSTracker
 import com.weather.weathermain.R
@@ -22,27 +18,16 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         gpsTracker = GPSTracker(this@SplashActivity)
-
-        try {
-            if (ContextCompat.checkSelfPermission(applicationContext,
-                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        if (gpsTracker!!.canGetLocation()) {
-            locationData = LocationData(gpsTracker!!.latitude, gpsTracker!!.longitude)
+        if (gpsTracker!!.canGetLocation() && gpsTracker != null) {
+            launchMainActivity()
         } else {
             gpsTracker!!.showSettingsAlert()
         }
 
-        launchMainActivity()
     }
 
     private fun launchMainActivity() {
+        locationData = LocationData(gpsTracker!!.latitude, gpsTracker!!.longitude)
         CurrentWeatherActivity.launch(this, locationData)
         finish()
     }
